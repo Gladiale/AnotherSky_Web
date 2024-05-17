@@ -1,0 +1,74 @@
+.video-box {
+  cursor: crosshair;
+  transition: 0.5s;
+  animation: poyon 1.1s linear 0s 1;
+  filter: drop-shadow(0 0 5px #ff00d4) drop-shadow(0 0 15px #ff00d4);
+
+  /* transform-style: preserve-3d;
+  perspective: 2000px; */
+}
+
+.video-box video {
+  object-fit: cover;
+  /* videoの縦方向を中央寄せ */
+  display: grid;
+  place-items: center;
+  transition: 0.5s;
+}
+
+.video-box video:hover {
+  animation: bounce_video 0.5s ease alternate infinite;
+}
+
+.video-box video.cardMode {
+  height: 872px;
+}
+
+.video-box video.mangaMode {
+  height: 99dvh;
+}
+.video-box video.cgMode {
+  height: 100%;
+}
+
+@keyframes bounce_video {
+  0% {
+    scale: 1.03 1;
+    translate: 0 10px;
+  }
+  100% {
+    scale: 0.95 1;
+    translate: 0 -15px;
+  }
+}
+
+/* https://ics.media/entry/11336/ */
+@keyframes poyon {
+  0% {
+    transform: scale(0.8, 1.4) translate(0%, -100%);
+  }
+  10% {
+    transform: scale(0.8, 1.4) translate(0%, -15%);
+  }
+  20% {
+    transform: scale(1.4, 0.6) translate(0%, 30%);
+  }
+  30% {
+    transform: scale(0.9, 1.1) translate(0%, -10%);
+  }
+  40% {
+    transform: scale(0.95, 1.2) translate(0%, -30%);
+  }
+  50% {
+    transform: scale(0.95, 1.2) translate(0%, -10%);
+  }
+  60% {
+    transform: scale(1.1, 0.9) translate(0%, 5%);
+  }
+  70% {
+    transform: scale(1, 1) translate(0%, 0%);
+  }
+  100% {
+    transform: scale(1, 1) translate(0%, 0%);
+  }
+}

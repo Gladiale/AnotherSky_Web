@@ -1,0 +1,37 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+}
+
+.container.cardMode {
+  height: 862px;
+}
+
+.container.mangaMode {
+  height: 99dvh;
+}
+
+.container.cgMode {
+  height: 99dvh;
+}
+
+.container.mirror {
+  width: 100dvw;
+}
+
+/* ！重要 */
+/* @media (device-height < 1080px) {
+  .container {
+    zoom: 0.8;
+  }
+  html:has(.container.mangaMode) {
+    font-size: 12.8px;
+  }
+  html:has(.container.cgMode) {
+    font-size: 12.8px;
+  }
+} */

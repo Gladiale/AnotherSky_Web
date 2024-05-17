@@ -1,0 +1,72 @@
+.stand-container {
+  height: 100%;
+  max-width: 25dvw;
+  transition: 0.5s;
+  /* z-indexを効くために */
+  position: relative;
+}
+
+.stand-container:hover {
+  max-width: 50dvw;
+  z-index: 99;
+}
+
+.stand-container.mirror {
+  max-width: none;
+  position: absolute;
+  left: 0;
+  transform: translateX(-22%);
+  z-index: 99;
+}
+
+/* .stand-container.mirror:hover {
+  transform: translateX(-18%);
+} */
+
+.stand-wrapper {
+  height: 100%;
+  transition: 0.25s;
+  /* filter: drop-shadow(0 0 5px #5cff95) drop-shadow(0 0 15px #ff34dd); */
+}
+
+.stand-wrapper:hover {
+  animation: bounce 0.5s ease alternate infinite;
+  /* filter: drop-shadow(0 0 5px #86fff3) drop-shadow(0 0 15px #fc3eff); */
+}
+
+.stand-wrapper .stand-img {
+  user-select: none;
+  cursor: pointer;
+  height: 100%;
+  transition: 0.3s;
+  animation: character_show 1s 0s;
+  animation-timing-function: ease, step-start, cubic-bezier(0.1, 0.7, 1, 0.1);
+}
+
+.stand-wrapper .stand-img:active {
+  animation: bounce 0.5s ease;
+}
+
+@keyframes character_show {
+  0% {
+    /* opacity: 0; */
+    transform: scale(1.25);
+  }
+  100% {
+    /* opacity: 1; */
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce {
+  0% {
+    translate: 0px 0px;
+    scale: 1;
+    /* transform: translateY(0px) scale(1); */
+  }
+  100% {
+    translate: 0px -15px;
+    scale: 0.95 1;
+    /* transform: translateY(-15px) scale(0.95, 1); */
+  }
+}

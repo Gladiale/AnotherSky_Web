@@ -1,0 +1,73 @@
+.autoMatic-box {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.autoMatic-box .icon {
+  cursor: pointer;
+  padding: 1px;
+  border-radius: 50%;
+  color: #ffa9ec;
+  font-size: 2.2rem;
+  transition: 0.25s;
+}
+
+.autoMatic-box .icon:hover {
+  border: 1px dashed #ffa9ec;
+  background-color: #fff;
+  color: rgb(200, 0, 15);
+  animation: 0.2s linear 0s flashAni;
+}
+
+.autoMatic-box .icon:active {
+  color: #eb00e7;
+  border: 1px dashed #eb004e;
+  scale: 1.5;
+}
+
+.autoMatic-box .icon.autoMatic {
+  animation: animate-rotate 1.5s linear infinite;
+}
+
+.autoMatic-box > p {
+  user-select: none;
+  position: absolute;
+  transform: translateY(-150%);
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.2rem;
+  color: #47fff9;
+  background-color: #f189ff;
+  outline: 1px dashed #fe62dcd4;
+  transition: 0.5s;
+  scale: 0;
+}
+
+.autoMatic-box:hover p {
+  scale: 1;
+}
+
+@keyframes flashAni {
+  0%,
+  35%,
+  50%,
+  85% {
+    opacity: 0;
+  }
+  20%,
+  65%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes animate-rotate {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}

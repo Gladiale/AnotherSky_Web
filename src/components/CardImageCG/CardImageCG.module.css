@@ -1,0 +1,29 @@
+.cg-img {
+  height: 100%;
+  width: 100%;
+  cursor: crosshair;
+  animation: cg_picture 7.5s linear infinite;
+  /* filter: drop-shadow(0 0 5px #5cff95) drop-shadow(0 0 15px #ff34dd); */
+}
+
+/* .cg-img:hover {
+  filter: drop-shadow(0 0 5px #86fff3) drop-shadow(0 0 15px #fc3eff);
+} */
+
+@keyframes cg_picture {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateX(25px) rotate(-5deg);
+  }
+  50% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  75% {
+    transform: translateX(-25px) rotate(5deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
