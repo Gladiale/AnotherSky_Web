@@ -1,7 +1,7 @@
 import styles from "./VoiceControl.module.css";
 import { useState } from "react";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
-import { GiHeartStake, GiNestedHearts } from "react-icons/gi";
+import { GiHeartStake } from "react-icons/gi";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { BiFirstPage, BiLastPage } from "react-icons/bi";
 
