@@ -1,10 +1,7 @@
 import styles from "./StandImage.module.css";
 import { useState } from "react";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
-import {
-  getRandomVoice,
-  getRandomVoiceFolder,
-} from "../../helper/getRandomFile";
+import { getRandomVoice } from "../../helper/getRandomFile";
 import { useSwirlDeg } from "../../context/SwirlContext";
 import { useEffectState } from "../../context/EffectStateContext";
 import { useFilter } from "../../context/FilterContext";
