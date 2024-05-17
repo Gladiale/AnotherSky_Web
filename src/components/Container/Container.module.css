@@ -23,9 +23,9 @@
   width: 100dvw;
 }
 
-/* ！重要 */
-/* @media (device-height < 1080px) {
-  .container {
+/* ！重要 125%DPI対応 */
+@media (device-height < 1080px) {
+  .container.cardMode {
     zoom: 0.8;
   }
   html:has(.container.mangaMode) {
@@ -34,4 +34,4 @@
   html:has(.container.cgMode) {
     font-size: 12.8px;
   }
-} */
+}
