@@ -15,13 +15,9 @@
   max-width: none;
   position: absolute;
   left: 0;
-  transform: translateX(-22%);
+  /* transform: translateX(-22%); */
   z-index: 99;
 }
-
-/* .stand-container.mirror:hover {
-  transform: translateX(-18%);
-} */
 
 .stand-wrapper {
   height: 100%;

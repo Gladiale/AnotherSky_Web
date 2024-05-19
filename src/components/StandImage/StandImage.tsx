@@ -13,6 +13,7 @@ type PropsType = {
 const StandImage = ({ imgStyle }: PropsType) => {
   const [vocal, setVocal] = useState<string>("");
   const [hasVocal, setHasVocal] = useState<boolean>(false);
+  const [imgMoveValue, setImgMoveValue] = useState<string>("");
 
   const { mediaState } = useMediaInfo();
   const { swirlState } = useSwirlDeg();
@@ -28,12 +29,41 @@ const StandImage = ({ imgStyle }: PropsType) => {
     setHasVocal(true);
   };
 
+  const handleAspect = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const width = e.currentTarget.naturalWidth;
+    const height = e.currentTarget.naturalHeight;
+
+    const aspectRatio = width / height;
+    // console.log(aspectRatio);
+
+    if (aspectRatio < 0.29) {
+      return setImgMoveValue("-9%");
+    }
+    if (aspectRatio < 0.39) {
+      return setImgMoveValue("-15%");
+    }
+    if (aspectRatio < 0.4) {
+      return setImgMoveValue("-18%");
+    }
+    if (aspectRatio < 0.45) {
+      return setImgMoveValue("-20%");
+    }
+    if (aspectRatio < 0.58) {
+      return setImgMoveValue("-30%");
+    }
+    return setImgMoveValue("-32%");
+  };
+
   return (
     <div
       className={`${styles["stand-container"]} ${
         effectState.mirrorEffect && styles.mirror
       }`}
-      style={imgStyle}
+      style={{
+        transform: effectState.mirrorEffect
+          ? `translateX(${imgMoveValue})`
+          : imgStyle?.transform,
+      }}
     >
       <div
         className={styles["stand-wrapper"]}
@@ -55,6 +85,7 @@ const StandImage = ({ imgStyle }: PropsType) => {
           className={styles["stand-img"]}
           src={`/stand-image/folder-${mediaState.standFolder}/${mediaState.standFile}`}
           onClick={handleVocal}
+          onLoad={handleAspect}
         />
       </div>
       {hasVocal && (
