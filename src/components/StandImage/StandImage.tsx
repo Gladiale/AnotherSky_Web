@@ -45,8 +45,11 @@ const StandImage = ({ imgStyle }: PropsType) => {
     if (aspectRatio < 0.4) {
       return setImgMoveValue("-18%");
     }
-    if (aspectRatio < 0.45) {
+    if (aspectRatio < 0.5) {
       return setImgMoveValue("-20%");
+    }
+    if (aspectRatio < 0.54) {
+      return setImgMoveValue("-29%");
     }
     if (aspectRatio < 0.58) {
       return setImgMoveValue("-30%");
