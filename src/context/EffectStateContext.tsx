@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 
-type EffectStateType = {
+export type EffectStateType = {
   imageEffect: boolean;
   mirrorEffect: boolean;
   filterEffect: {
@@ -9,6 +9,10 @@ type EffectStateType = {
     targetVideo: boolean;
   };
   pixelEffect: boolean;
+  shakeEffect: {
+    active: boolean;
+    heavy: "low" | "normal" | "high";
+  };
 };
 
 const effectSateInit: EffectStateType = {
@@ -20,10 +24,14 @@ const effectSateInit: EffectStateType = {
     targetVideo: false,
   },
   pixelEffect: false,
+  shakeEffect: {
+    active: false,
+    heavy: "low",
+  },
 };
 
 type ActionTypeNoPayload = {
-  type: "image" | "mirror" | "pixel";
+  type: "image" | "mirror" | "pixel" | "shake";
 };
 
 export type EffectSatePayloadType =
@@ -38,7 +46,12 @@ type ActionTypeWithPayload = {
   payload: EffectSatePayloadType;
 };
 
-type ActionType = ActionTypeNoPayload | ActionTypeWithPayload;
+type ActionTypeShake = {
+  type: "shakeHeavy";
+  payload: EffectStateType["shakeEffect"]["heavy"];
+};
+
+type ActionType = ActionTypeNoPayload | ActionTypeWithPayload | ActionTypeShake;
 
 const targetSelect = (
   state: EffectStateType,
@@ -87,10 +100,27 @@ const targetSelect = (
           targetStand: false,
           targetVideo: false,
         },
+        shakeEffect: {
+          ...state.shakeEffect,
+          active: false,
+        },
       };
     default:
       throw new Error("不明なエラーです");
   }
+};
+
+const heavySelect = (
+  state: EffectStateType,
+  heavy: EffectStateType["shakeEffect"]["heavy"]
+) => {
+  return {
+    ...state,
+    shakeEffect: {
+      ...state.shakeEffect,
+      heavy: heavy,
+    },
+  };
 };
 
 const reducer = (state: EffectStateType, action: ActionType) => {
@@ -103,6 +133,16 @@ const reducer = (state: EffectStateType, action: ActionType) => {
       return targetSelect(state, action.payload);
     case "pixel":
       return { ...state, pixelEffect: !state.pixelEffect };
+    case "shake":
+      return {
+        ...state,
+        shakeEffect: {
+          ...state.shakeEffect,
+          active: !state.shakeEffect.active,
+        },
+      };
+    case "shakeHeavy":
+      return heavySelect(state, action.payload);
     default:
       throw new Error("不明なactionです");
   }

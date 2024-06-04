@@ -5,7 +5,7 @@ let videoFileList: string[];
 const getVideoList: GetListType = (folderName) => {
   switch (folderName) {
     case "01":
-      videoFileList = ["001.mkv", "002.mp4", "003.mp4"];
+      videoFileList = ["001.mkv", "002.mp4", "003.mp4", "あたしの裸よ.mp4"];
       return videoFileList;
 
     case "02":

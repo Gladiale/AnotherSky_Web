@@ -11,6 +11,7 @@
   background: var(--clr1);
   box-shadow: 0 0 0 5px #0009, 0 10px 65px var(--clr1);
   user-select: none;
+  /* cursor: pointer; */
   z-index: 10;
   transition: 0.5s;
 
@@ -23,11 +24,8 @@
 .card.cardMode {
   width: 612px;
 }
-.card.mangaMode {
-  width: 40dvw;
-}
 .card.cgMode {
-  width: 60dvw;
+  width: 40dvw;
 }
 
 .card:hover {

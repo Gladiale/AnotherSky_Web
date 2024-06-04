@@ -1,6 +1,10 @@
 import { createContext, useContext, useState } from "react";
 
-export type SceneType = "card-stand" | "card-cg" | "card-video";
+export type SceneType =
+  | "card-stand"
+  | "card-cg"
+  | "card-video"
+  | "card-listImg";
 
 type ContextType = {
   scene: SceneType;

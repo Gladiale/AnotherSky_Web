@@ -4,6 +4,7 @@ import styles from "./FilterControl.module.css";
 import {
   type EffectSatePayloadType,
   useEffectState,
+  EffectStateType,
 } from "../../context/EffectStateContext";
 
 const FilterMenu = () => {
@@ -22,6 +23,10 @@ const FilterMenu = () => {
 
   const changeTarget = (target: EffectSatePayloadType) => {
     effectStateDispatch({ type: "filter", payload: target });
+  };
+
+  const changeHeavy = (heavy: EffectStateType["shakeEffect"]["heavy"]) => {
+    effectStateDispatch({ type: "shakeHeavy", payload: heavy });
   };
 
   const [copyMessage, setCopyMessage] = useState<string>("データ取得");
@@ -169,14 +174,55 @@ const FilterMenu = () => {
         />
       </label>
 
-      <label>
-        <span>PixelateEffect</span>
-        <input
-          type="checkbox"
-          checked={effectState.pixelEffect}
-          onChange={() => effectStateDispatch({ type: "pixel" })}
-        />
-      </label>
+      <div className={styles["effect-box"]}>
+        <label>
+          <span>PixelateEffect</span>
+          <input
+            type="checkbox"
+            checked={effectState.pixelEffect}
+            onChange={() => effectStateDispatch({ type: "pixel" })}
+          />
+        </label>
+        <div className={styles["shake-box"]}>
+          <div className={styles.heavySelect}>
+            <label>
+              <input
+                type="radio"
+                name="heavy"
+                checked={effectState.shakeEffect.heavy === "low"}
+                onChange={() => changeHeavy("low")}
+              />
+              <span>軽</span>
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="heavy"
+                checked={effectState.shakeEffect.heavy === "normal"}
+                onChange={() => changeHeavy("normal")}
+              />
+              <span>中</span>
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="heavy"
+                checked={effectState.shakeEffect.heavy === "high"}
+                onChange={() => changeHeavy("high")}
+              />
+              <span>重</span>
+            </label>
+          </div>
+          <label>
+            <span>ShakeEffect</span>
+            <input
+              type="checkbox"
+              checked={effectState.shakeEffect.active}
+              onChange={() => effectStateDispatch({ type: "shake" })}
+            />
+          </label>
+        </div>
+      </div>
 
       <div className={styles.targetSelect}>
         <label>

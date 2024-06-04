@@ -1,5 +1,6 @@
-import { useImageSize } from "../../context/ImageSizeContext";
+import { useEffectState } from "../../context/EffectStateContext";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
+import { useMediaSize } from "../../context/ScreenContext";
 import styles from "./CardImageCG.module.css";
 
 type PropsType = {
@@ -26,7 +27,7 @@ const CardImageCG = ({ data }: { data: PropsType }) => {
     setPicturePosition,
   } = data;
 
-  const { imageSize } = useImageSize();
+  const { mediaSize } = useMediaSize();
 
   const triggerPictureMode = (e: any) => {
     if (e.button === 1) {
@@ -64,7 +65,7 @@ const CardImageCG = ({ data }: { data: PropsType }) => {
     }
   };
 
-  const changeScale = (e: any) => {
+  const changeScale = (e: React.WheelEvent) => {
     if (isPictureMode) {
       if (e.deltaY > 0) {
         setPictureScale((prev) => Number((prev - 0.1).toFixed(1)));
@@ -75,21 +76,46 @@ const CardImageCG = ({ data }: { data: PropsType }) => {
   };
 
   const { mediaState } = useMediaInfo();
+  const { effectState } = useEffectState();
+
+  const shakeCondition = {
+    low:
+      effectState.shakeEffect.active && effectState.shakeEffect.heavy === "low",
+    normal:
+      effectState.shakeEffect.active &&
+      effectState.shakeEffect.heavy === "normal",
+    high:
+      effectState.shakeEffect.active &&
+      effectState.shakeEffect.heavy === "high",
+  };
 
   return (
-    <img
-      className={styles["cg-img"]}
-      src={`/cg-image/folder-${mediaState.cgFolder}/${mediaState.cgFile}`}
-      style={{
-        // scale: isPictureMode ? String(pictureScale) : "1",
-        objectFit: imageSize,
-        height: imageSize === "none" ? "auto" : undefined,
-        width: imageSize === "none" ? "auto" : undefined,
-      }}
-      onMouseDown={triggerPictureMode}
-      onMouseMove={enterPictureMode}
-      onWheel={changeScale}
-    />
+    <div
+      className={`${styles["img-box"]}
+      ${shakeCondition.low ? styles.shakeLow : ""}
+      ${shakeCondition.normal ? styles.shakeNormal : ""}
+      ${shakeCondition.high ? styles.shakeHigh : ""}
+      `}
+    >
+      <img
+        className={styles["cg-img"]}
+        src={`/cg-image/folder-${mediaState.cgFolder}/${mediaState.cgFile}`}
+        style={{
+          // scale: isPictureMode ? String(pictureScale) : "1",
+          objectFit: mediaSize === "custom" ? "contain" : mediaSize,
+          height:
+            mediaSize === "none"
+              ? "auto"
+              : mediaSize === "custom"
+              ? "900px"
+              : undefined,
+          width: mediaSize === "none" ? "auto" : undefined,
+        }}
+        onMouseDown={triggerPictureMode}
+        onMouseMove={enterPictureMode}
+        onWheel={changeScale}
+      />
+    </div>
   );
 };
 

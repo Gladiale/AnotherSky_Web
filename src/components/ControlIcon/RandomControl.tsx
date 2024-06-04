@@ -46,7 +46,7 @@ const RandomControl = () => {
       <div className={styles.itemSelect}>
         <div className={styles.folderCheck}>
           <label>
-            <span>Folder</span>
+            <span>Folder乱数</span>
             <input
               type="checkbox"
               checked={randomTarget.folder}

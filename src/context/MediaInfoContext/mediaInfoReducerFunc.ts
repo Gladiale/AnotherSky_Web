@@ -14,6 +14,10 @@ import { toPrevFunc } from "../../helper/toPrevFunc";
 import { toPrevVoice } from "../../helper/toPrevVoice";
 import { toRandomFunc } from "../../helper/toRandomFunc";
 import { toRandomWithSelect } from "../../helper/toRandomWithSelect";
+import {
+  type SpecificPayloadType,
+  toSpecificFile,
+} from "../../helper/toSpecificFile";
 import { type SceneType } from "../SceneContext";
 import { type MediaInfoType } from "./mediaInfo";
 
@@ -45,7 +49,16 @@ type OtherActionType = {
   payload: RandomTargetType;
 };
 
-type ActionType = MainActionType | SubActionType | OtherActionType;
+type SpecificActionType = {
+  type: "specific";
+  payload: SpecificPayloadType;
+};
+
+type ActionType =
+  | MainActionType
+  | SubActionType
+  | OtherActionType
+  | SpecificActionType;
 
 function reducerFunc(state: MediaInfoType, action: ActionType) {
   switch (action.type) {
@@ -94,6 +107,9 @@ function reducerFunc(state: MediaInfoType, action: ActionType) {
     case "randomWithSelect":
       const randomNotVoiceMedia = toRandomWithSelect(action.payload, state);
       return { ...state, ...randomNotVoiceMedia };
+    case "specific":
+      const specificMedia = toSpecificFile(action.payload, state);
+      return { ...state, ...specificMedia };
     default:
       throw new Error("不明なactionです");
   }

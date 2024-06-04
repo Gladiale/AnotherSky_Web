@@ -3,6 +3,7 @@
   transition: 0.5s;
   animation: poyon 1.1s linear 0s 1;
   filter: drop-shadow(0 0 5px #ff00d4) drop-shadow(0 0 15px #ff00d4);
+  z-index: 9;
 
   /* transform-style: preserve-3d;
   perspective: 2000px; */
@@ -16,19 +17,21 @@
   transition: 0.5s;
 }
 
-.video-box video:hover {
+/* .video-box video:hover {
   animation: bounce_video 0.5s ease alternate infinite;
-}
+} */
 
 .video-box video.cardMode {
   height: 872px;
 }
-
-.video-box video.mangaMode {
+.video-box video.cgMode {
   height: 99dvh;
 }
-.video-box video.cgMode {
+.video-box video.originalSize {
   height: 100%;
+}
+.video-box video.customSize {
+  height: 900px;
 }
 
 @keyframes bounce_video {

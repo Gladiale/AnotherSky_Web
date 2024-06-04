@@ -1,16 +1,14 @@
-import { useScreenMode } from "../../context/ScreenContext";
-import styles from "./Icon.module.css";
+import styles from "./ScreenControl.module.css";
 import { GiSnowflake2 } from "react-icons/gi";
+import { useMediaSize, useScreenMode } from "../../context/ScreenContext";
 
 const ScreenControl = () => {
   const { screenMode, setScreenMode } = useScreenMode();
+  const { mediaSize, setMediaSize } = useMediaSize();
 
   const screenControl = () => {
     switch (screenMode) {
       case "cardMode":
-        setScreenMode("mangaMode");
-        break;
-      case "mangaMode":
         setScreenMode("cgMode");
         break;
       default:
@@ -18,7 +16,40 @@ const ScreenControl = () => {
     }
   };
 
-  return <GiSnowflake2 className={styles.icon} onClick={screenControl} />;
+  return (
+    <div className={styles["screen-container"]}>
+      <div className={styles.sizeSelect}>
+        <label>
+          <input
+            type="radio"
+            name="size"
+            checked={mediaSize === "contain"}
+            onChange={() => setMediaSize("contain")}
+          />
+          <span>contain</span>
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="size"
+            checked={mediaSize === "none"}
+            onChange={() => setMediaSize("none")}
+          />
+          <span>origin</span>
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="size"
+            checked={mediaSize === "custom"}
+            onChange={() => setMediaSize("custom")}
+          />
+          <span>custom</span>
+        </label>
+      </div>
+      <GiSnowflake2 className={styles.icon} onClick={screenControl} />
+    </div>
+  );
 };
 
 export default ScreenControl;

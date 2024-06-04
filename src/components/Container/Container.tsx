@@ -6,11 +6,11 @@ import Control from "../Control/Control";
 import { HoverProvider } from "../../context/HoverContext";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
 import Information from "../Information/Information";
-import { ImageSizeProvider } from "../../context/ImageSizeContext";
 import { SwirlDegProvider } from "../../context/SwirlContext";
 import { FilterProvider } from "../../context/FilterContext";
 import { useScreenMode } from "../../context/ScreenContext";
 import { useEffectState } from "../../context/EffectStateContext";
+import { ImageListProvider } from "../../context/ImageListState";
 
 const Container = () => {
   const { mediaState, mediaDispatch } = useMediaInfo();
@@ -28,17 +28,16 @@ const Container = () => {
       className={`${styles.container}
       ${effectState.mirrorEffect && styles.mirror}
       ${screenMode === "cardMode" && styles.cardMode}
-      ${screenMode === "mangaMode" && styles.mangaMode}
       ${screenMode === "cgMode" && styles.cgMode}`}
     >
       <FilterProvider>
         <SwirlDegProvider>
           <HoverProvider>
-            <ImageSizeProvider>
+            <ImageListProvider>
               <Content />
               <Control />
               <Information />
-            </ImageSizeProvider>
+            </ImageListProvider>
           </HoverProvider>
         </SwirlDegProvider>
       </FilterProvider>

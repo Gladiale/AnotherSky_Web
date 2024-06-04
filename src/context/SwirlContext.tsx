@@ -5,12 +5,14 @@ type SwirlDegType = {
   cardSwirlDeg: number;
   cgSwirlDeg: number;
   videoSwirlDeg: number;
+  listSwirlDeg: number;
 };
 
 const swirlDegInit = {
   cardSwirlDeg: 0,
   cgSwirlDeg: 0,
   videoSwirlDeg: 0,
+  listSwirlDeg: 0,
 };
 
 type SwirlActionType = {
@@ -34,6 +36,11 @@ function reducer(state: SwirlDegType, action: SwirlActionType) {
         return { ...state, videoSwirlDeg: 180 };
       }
       return { ...state, videoSwirlDeg: 0 };
+    case "card-listImg":
+      if (state.listSwirlDeg === 0) {
+        return { ...state, listSwirlDeg: 180 };
+      }
+      return { ...state, listSwirlDeg: 0 };
     default:
       throw new Error("不明なactionです");
   }

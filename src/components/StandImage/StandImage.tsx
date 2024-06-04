@@ -15,12 +15,20 @@ const StandImage = ({ imgStyle }: PropsType) => {
   const [hasVocal, setHasVocal] = useState<boolean>(false);
   const [imgMoveValue, setImgMoveValue] = useState<string>("");
 
-  const { mediaState } = useMediaInfo();
+  const { mediaState, mediaDispatch } = useMediaInfo();
   const { swirlState } = useSwirlDeg();
   const { effectState } = useEffectState();
   const { filterState } = useFilter();
 
-  const handleVocal = (e: any) => {
+  const changeStandImage = (e: React.WheelEvent) => {
+    if (e.deltaY > 0) {
+      mediaDispatch({ type: "next", payload: "card-stand" });
+    } else {
+      mediaDispatch({ type: "prev", payload: "card-stand" });
+    }
+  };
+
+  const handleVocal = (e: React.MouseEvent<HTMLImageElement>) => {
     e.stopPropagation();
     // ランダムなボイスを取得
     // const voiceFolder = getRandomVoiceFolder();
@@ -67,6 +75,7 @@ const StandImage = ({ imgStyle }: PropsType) => {
           ? `translateX(${imgMoveValue})`
           : imgStyle?.transform,
       }}
+      onWheel={changeStandImage}
     >
       <div
         className={styles["stand-wrapper"]}

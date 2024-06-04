@@ -15,7 +15,7 @@ import MirrorEffectControl from "../ControlIcon/MirrorEffectControl";
 import AutoNext from "../ControlIcon/AutoNext";
 import ImageEffectControl from "../ControlIcon/ImageEffectControl";
 import RandomControl from "../ControlIcon/RandomControl";
-import Unknown from "../ControlIcon/Unknown";
+import ShowListImage from "../ControlIcon/ShowListImage";
 
 const Control = () => {
   const { setIsHovered } = useHover();
@@ -28,11 +28,11 @@ const Control = () => {
     >
       <ScreenControl />
       <MirrorEffectControl />
-      <Unknown />
       <ImageEffectControl />
+      <VoiceControl />
       <ToFirst />
       <ToPrev />
-      <VoiceControl />
+      <ShowListImage />
       <FullScreen />
       <RandomControl />
       <ToNext />

@@ -1,8 +1,10 @@
 .random-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  white-space: nowrap;
   transition: 0.5s;
 }
 

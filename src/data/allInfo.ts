@@ -6,7 +6,7 @@ type MaxInfoType = {
 
 const maxInfo: MaxInfoType = {
   maxCgFolder: 3,
-  maxStandFolder: 3,
+  maxStandFolder: 4,
   maxVideoFolder: 1,
 };
 

@@ -20,11 +20,11 @@
   scale: 1.5;
 }
 
-.icon.imageSizeCover {
-  color: #00ff44;
-}
 .icon.imageSizeNone {
   color: #e1ff00;
+}
+.icon.imageSizeCustom {
+  color: #00eeff;
 }
 
 .icon.toggleState {

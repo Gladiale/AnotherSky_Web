@@ -3,9 +3,10 @@ import styles from "./CardImage.module.css";
 import CardImageCG from "../CardImageCG/CardImageCG";
 import CardImageStand from "../CardImageStand/CardImageStand";
 import { useSwirlDeg } from "../../context/SwirlContext";
+import { type SceneType } from "../../context/SceneContext";
 
 type PropsType = {
-  scene: "card-stand" | "card-cg" | "card-video";
+  scene: SceneType;
   isPictureMode: boolean;
   setIsPictureMode: React.Dispatch<React.SetStateAction<boolean>>;
 };

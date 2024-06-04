@@ -2,7 +2,7 @@ import { useEffectState } from "../../context/EffectStateContext";
 import { useFilter } from "../../context/FilterContext";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
 import { useScene } from "../../context/SceneContext";
-import { useScreenMode } from "../../context/ScreenContext";
+import { useMediaSize, useScreenMode } from "../../context/ScreenContext";
 import { useSwirlDeg } from "../../context/SwirlContext";
 import styles from "./Video.module.css";
 
@@ -11,6 +11,7 @@ const Video = () => {
   const { mediaState } = useMediaInfo();
   const { swirlState } = useSwirlDeg();
   const { screenMode } = useScreenMode();
+  const { mediaSize } = useMediaSize();
   const { effectState } = useEffectState();
   const { filterState } = useFilter();
 
@@ -25,8 +26,10 @@ const Video = () => {
         loop
         autoPlay
         className={`${screenMode === "cardMode" && styles.cardMode}
-        ${screenMode === "mangaMode" && styles.mangaMode}
-        ${screenMode === "cgMode" && styles.cgMode}`}
+        ${screenMode === "cgMode" && styles.cgMode}
+        ${mediaSize === "none" && styles.originalSize}
+        ${mediaSize === "custom" && styles.customSize}
+        `}
         style={{
           transform: `rotateY(${swirlState.videoSwirlDeg}deg)`,
           filter: effectState.filterEffect.targetVideo

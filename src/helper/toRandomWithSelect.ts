@@ -1,4 +1,4 @@
-import { RandomTargetType } from "../components/ControlIcon/RandomControl";
+import { type RandomTargetType } from "../components/ControlIcon/RandomControl";
 import { type MediaInfoType } from "../context/MediaInfoContext/mediaInfo";
 import { maxInfo } from "../data/allInfo";
 import {

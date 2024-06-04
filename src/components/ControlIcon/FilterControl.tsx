@@ -6,13 +6,15 @@ import { useEffectState } from "../../context/EffectStateContext";
 const FilterControl = () => {
   const { effectState, effectStateDispatch } = useEffectState();
 
+  const condition: boolean =
+    effectState.pixelEffect ||
+    effectState.shakeEffect.active ||
+    effectState.filterEffect.targetCard ||
+    effectState.filterEffect.targetStand ||
+    effectState.filterEffect.targetVideo;
+
   const openCloseFilter = () => {
-    if (
-      effectState.pixelEffect ||
-      effectState.filterEffect.targetCard ||
-      effectState.filterEffect.targetStand ||
-      effectState.filterEffect.targetVideo
-    ) {
+    if (condition) {
       effectStateDispatch({ type: "filter", payload: "allClose" });
     } else {
       effectStateDispatch({ type: "filter", payload: "allOpen" });
@@ -22,19 +24,10 @@ const FilterControl = () => {
   return (
     <div className={styles["filter-container"]}>
       <GiFairyWand
-        className={`${styles.icon} ${
-          (effectState.pixelEffect ||
-            effectState.filterEffect.targetCard ||
-            effectState.filterEffect.targetStand ||
-            effectState.filterEffect.targetVideo) &&
-          styles.toggleFilter
-        }`}
+        className={`${styles.icon} ${condition && styles.toggleFilter}`}
         onClick={openCloseFilter}
       />
-      {(effectState.pixelEffect ||
-        effectState.filterEffect.targetCard ||
-        effectState.filterEffect.targetStand ||
-        effectState.filterEffect.targetVideo) && <FilterMenu />}
+      {condition && <FilterMenu />}
     </div>
   );
 };

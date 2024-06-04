@@ -9,12 +9,14 @@ import { useScreenMode } from "../../context/ScreenContext";
 import { useSwirlDeg } from "../../context/SwirlContext";
 import { useEffectState } from "../../context/EffectStateContext";
 import { useFilter } from "../../context/FilterContext";
+import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
 
 const Card = () => {
   const [isPictureMode, setIsPictureMode] = useState<boolean>(false);
 
   const { setIsHovered } = useHover();
   const { scene, setScene } = useScene();
+  const { mediaDispatch } = useMediaInfo();
   const { screenMode } = useScreenMode();
   const { swirlState } = useSwirlDeg();
   const { effectState } = useEffectState();
@@ -59,17 +61,27 @@ const Card = () => {
     }
   };
 
+  const changeImage = (e: React.WheelEvent) => {
+    if (!isPictureMode) {
+      if (e.deltaY > 0) {
+        mediaDispatch({ type: "next", payload: scene });
+      } else {
+        mediaDispatch({ type: "prev", payload: scene });
+      }
+    }
+  };
+
   return (
     <div
       className={`${styles.card}
       ${scene === "card-cg" ? styles.sceneCG : ""}
       ${screenMode === "cardMode" && styles.cardMode}
-      ${screenMode === "mangaMode" && styles.mangaMode}
       ${screenMode === "cgMode" && styles.cgMode}`}
       onMouseEnter={() => setIsHovered({ cardHover: true, iconHover: false })}
       onMouseLeave={() => setIsHovered({ cardHover: false, iconHover: false })}
       onClick={changeScene}
       onContextMenu={resetScene}
+      onWheel={changeImage}
       style={{
         transform: `rotate(${rotateCardDeg}deg) rotateY(${swirlState.cardSwirlDeg}deg)`,
         overflow:
