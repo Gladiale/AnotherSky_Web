@@ -4,7 +4,7 @@ import { ScreenProvider } from "./context/ScreenContext";
 import { MediaInfoProvider } from "./context/MediaInfoContext/MediaInfoContext";
 
 import Container from "./components/Container/Container";
-import { EffectStateProvider } from "./context/EffectStateContext";
+import { EffectStateProvider } from "./context/EffectState/EffectStateContext";
 
 function App() {
   return (

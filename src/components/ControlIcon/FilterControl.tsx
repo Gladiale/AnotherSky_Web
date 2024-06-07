@@ -1,14 +1,13 @@
 import styles from "./FilterControl.module.css";
 import { GiFairyWand } from "react-icons/gi";
 import FilterMenu from "./FilterMenu";
-import { useEffectState } from "../../context/EffectStateContext";
+import { useEffectState } from "../../context/EffectState/EffectStateContext";
 
 const FilterControl = () => {
   const { effectState, effectStateDispatch } = useEffectState();
 
   const condition: boolean =
-    effectState.pixelEffect ||
-    effectState.shakeEffect.active ||
+    effectState.blendCG.active ||
     effectState.filterEffect.targetCard ||
     effectState.filterEffect.targetStand ||
     effectState.filterEffect.targetVideo;

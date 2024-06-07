@@ -1,7 +1,7 @@
-import { useEffectState } from "../../context/EffectStateContext";
-import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
-import { useMediaSize } from "../../context/ScreenContext";
 import styles from "./CardImageCG.module.css";
+import { useEffectState } from "../../context/EffectState/EffectStateContext";
+import CG from "./CG";
+import EffectImage from "../EffectImage/EffectImage";
 
 type PropsType = {
   isPictureMode: boolean;
@@ -27,7 +27,7 @@ const CardImageCG = ({ data }: { data: PropsType }) => {
     setPicturePosition,
   } = data;
 
-  const { mediaSize } = useMediaSize();
+  const { effectState } = useEffectState();
 
   const triggerPictureMode = (e: any) => {
     if (e.button === 1) {
@@ -75,9 +75,6 @@ const CardImageCG = ({ data }: { data: PropsType }) => {
     }
   };
 
-  const { mediaState } = useMediaInfo();
-  const { effectState } = useEffectState();
-
   const shakeCondition = {
     low:
       effectState.shakeEffect.active && effectState.shakeEffect.heavy === "low",
@@ -97,24 +94,18 @@ const CardImageCG = ({ data }: { data: PropsType }) => {
       ${shakeCondition.high ? styles.shakeHigh : ""}
       `}
     >
-      <img
-        className={styles["cg-img"]}
-        src={`/cg-image/folder-${mediaState.cgFolder}/${mediaState.cgFile}`}
-        style={{
-          // scale: isPictureMode ? String(pictureScale) : "1",
-          objectFit: mediaSize === "custom" ? "contain" : mediaSize,
-          height:
-            mediaSize === "none"
-              ? "auto"
-              : mediaSize === "custom"
-              ? "900px"
-              : undefined,
-          width: mediaSize === "none" ? "auto" : undefined,
-        }}
+      <div
+        className={styles["blendMode"]}
         onMouseDown={triggerPictureMode}
         onMouseMove={enterPictureMode}
         onWheel={changeScale}
-      />
+      >
+        <CG className="cg-img" />
+        {effectState.blendCG.active && effectState.filterEffect.targetCard && (
+          <CG className="texture-img" />
+        )}
+        {effectState.imageEF.activeImage && <EffectImage />}
+      </div>
     </div>
   );
 };

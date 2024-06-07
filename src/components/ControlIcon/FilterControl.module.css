@@ -95,7 +95,7 @@
   gap: 0.3rem;
 
   width: 100%;
-  border-radius: 0.2rem;
+  /* border-radius: 0.2rem; */
   padding: 0.2rem;
   margin-top: 0.8rem;
 
@@ -123,29 +123,21 @@
   cursor: pointer;
 }
 
-.menuFilter .effect-box .shake-box > label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.3rem;
-  cursor: pointer;
-}
-
-.menuFilter .effect-box .shake-box .heavySelect {
+/* .menuFilter .effect-box .heavySelect {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
 }
 
-.menuFilter .effect-box .shake-box .heavySelect > label {
+.menuFilter .effect-box .heavySelect > label {
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   gap: 0.1rem;
   font-size: 0.9rem;
-}
+} */
 
 /* checkboxカスタマイズ */
 .menuFilter input[type="checkbox"] {
@@ -183,9 +175,20 @@
   border: 1px solid #ed8be9;
   border-radius: 50%;
   transition: all 0.12s;
+  position: relative;
 }
 .menuFilter input[type="radio"]:checked {
   border-color: #09ff00;
+  /* background: #ff7cf4; */
+}
+.menuFilter input[type="radio"]:checked::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
   background: #ff7cf4;
 }
 

@@ -8,14 +8,14 @@ import ToFirst from "../ControlIcon/ToFirst";
 import ToLast from "../ControlIcon/ToLast";
 import VoiceControl from "../ControlIcon/VoiceControl";
 import ScreenControl from "../ControlIcon/ScreenControl";
-import ImageSizeControl from "../ControlIcon/ImageSizeControl";
-import SwirlControl from "../ControlIcon/SwirlControl";
 import FilterControl from "../ControlIcon/FilterControl";
 import MirrorEffectControl from "../ControlIcon/MirrorEffectControl";
 import AutoNext from "../ControlIcon/AutoNext";
 import ImageEffectControl from "../ControlIcon/ImageEffectControl";
 import RandomControl from "../ControlIcon/RandomControl";
 import ShowListImage from "../ControlIcon/ShowListImage";
+import Unknown from "../ControlIcon/Unknown";
+import RotateYControl from "../ControlIcon/RotateYControl";
 
 const Control = () => {
   const { setIsHovered } = useHover();
@@ -28,7 +28,7 @@ const Control = () => {
     >
       <ScreenControl />
       <MirrorEffectControl />
-      <ImageEffectControl />
+      <Unknown />
       <VoiceControl />
       <ToFirst />
       <ToPrev />
@@ -38,9 +38,9 @@ const Control = () => {
       <ToNext />
       <ToLast />
       <AutoNext />
-      <SwirlControl />
+      <RotateYControl />
       <FilterControl />
-      <ImageSizeControl />
+      <ImageEffectControl />
     </div>
   );
 };

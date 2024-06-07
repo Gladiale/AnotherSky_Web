@@ -6,11 +6,11 @@ import Control from "../Control/Control";
 import { HoverProvider } from "../../context/HoverContext";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
 import Information from "../Information/Information";
-import { SwirlDegProvider } from "../../context/SwirlContext";
 import { FilterProvider } from "../../context/FilterContext";
 import { useScreenMode } from "../../context/ScreenContext";
-import { useEffectState } from "../../context/EffectStateContext";
 import { ImageListProvider } from "../../context/ImageListState";
+import { useEffectState } from "../../context/EffectState/EffectStateContext";
+import { RotateYProvider } from "../../context/RotateYContext";
 
 const Container = () => {
   const { mediaState, mediaDispatch } = useMediaInfo();
@@ -18,7 +18,7 @@ const Container = () => {
   const { effectState } = useEffectState();
 
   useEffect(() => {
-    if (mediaState.standFile === "") {
+    if (mediaState.file.standFile[1] === "") {
       mediaDispatch({ type: "random" });
     }
   }, []);
@@ -31,7 +31,7 @@ const Container = () => {
       ${screenMode === "cgMode" && styles.cgMode}`}
     >
       <FilterProvider>
-        <SwirlDegProvider>
+        <RotateYProvider>
           <HoverProvider>
             <ImageListProvider>
               <Content />
@@ -39,7 +39,7 @@ const Container = () => {
               <Information />
             </ImageListProvider>
           </HoverProvider>
-        </SwirlDegProvider>
+        </RotateYProvider>
       </FilterProvider>
     </div>
   );

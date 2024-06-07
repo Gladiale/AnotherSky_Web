@@ -1,10 +1,6 @@
 .img-box {
   height: 100%;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: 0.5s;
 }
 
 .img-box.shakeLow {
@@ -19,16 +15,35 @@
   animation: shakeHighAni 0.15s linear infinite;
 }
 
-.img-box .cg-img {
+.img-box .blendMode {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
   height: 100%;
   width: 100%;
   cursor: crosshair;
+  transition: 0.5s;
   animation: cg_picture 7.5s linear infinite;
-  /* filter: drop-shadow(0 0 5px #5cff95) drop-shadow(0 0 15px #ff34dd); */
 }
 
-.img-box.shakeHigh .cg-img:hover {
+.img-box.shakeHigh .blendMode:hover {
   animation: shakeHighAni 0.15s linear infinite;
+}
+
+.img-box .blendMode .cg-img {
+  height: 100%;
+  width: 100%;
+}
+
+.img-box .blendMode .texture-img {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  mix-blend-mode: exclusion;
 }
 
 @keyframes cg_picture {

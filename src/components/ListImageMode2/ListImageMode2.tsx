@@ -1,25 +1,25 @@
 import styles from "./ListImageMode2.module.css";
 import { useEffect, useRef, useState } from "react";
-import { useEffectState } from "../../context/EffectStateContext";
 import { useFilter } from "../../context/FilterContext";
 import { useImageList } from "../../context/ImageListState";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
 import { useScene } from "../../context/SceneContext";
-import { useSwirlDeg } from "../../context/SwirlContext";
-import { type SpecificPayloadType } from "../../helper/toSpecificFile";
 import { createRandomImg } from "../../helper/createRandomImg";
 import { useScreenMode } from "../../context/ScreenContext";
+import { useEffectState } from "../../context/EffectState/EffectStateContext";
+import { useRotateY } from "../../context/RotateYContext";
+import { SpecificPayloadType } from "../../context/MediaInfoContext/MediaInfoFunc/dispatch/toMediaSpecificFile";
 
 const ListImageMode2 = () => {
   const { listState, listSubState, setListState } = useImageList();
   const { mediaState, mediaDispatch } = useMediaInfo();
   const { setScene } = useScene();
-  const { swirlState } = useSwirlDeg();
+  const { rotateYState } = useRotateY();
   const { effectState } = useEffectState();
   const { filterState } = useFilter();
   const { screenMode } = useScreenMode();
 
-  const [imageInfoList, setImageInfoList] = useState<string[][]>([]);
+  const [imageInfoList, setImageInfoList] = useState<[number, string][][]>([]);
   const imgBoxRef = useRef<HTMLDivElement>(null);
   const [changeInfo, setChangeInfo] = useState({
     changed: false,
@@ -55,7 +55,7 @@ const ListImageMode2 = () => {
   }
 
   useEffect(() => {
-    const imageList: string[][] = [];
+    const imageList: [number, string][][] = [];
     if (listState.cg) {
       target = "cg-image";
     } else {
@@ -108,7 +108,7 @@ const ListImageMode2 = () => {
           screenMode != "cardMode" ? styles.big : ""
         }`}
         style={{
-          transform: `rotateY(${swirlState.listSwirlDeg}deg)`,
+          transform: `rotateY(${rotateYState.listImgRotateY ? 180 : 0}deg)`,
           filter: effectState.filterEffect.targetCard
             ? `opacity(${filterState.opacity}%) brightness(${filterState.brightness}%) contrast(${filterState.contrast}%) grayscale(${filterState.grayscale}%) hue-rotate(${filterState.hueRotate}deg) invert(${filterState.invert}%) saturate(${filterState.saturate}%) sepia(${filterState.sepia}%)`
             : undefined,
@@ -120,14 +120,14 @@ const ListImageMode2 = () => {
             <div
               key={index}
               className={`${styles["item-wrapper"]}  itemQuery`}
-              data-text={`${item[0]}-${item[1].split(".")[0]}`}
+              data-text={`${item[0][1]}-${item[1][1]}`}
             >
               <div
                 className={`${styles.item} ${
                   effectState.shakeEffect.active ? styles.shake : ""
                 }`}
                 style={{
-                  ["--img" as any]: `url(/${target}/folder-${item[0]}/${item[1]})`,
+                  ["--img" as any]: `url(/${target}/${item[0][1]}/${item[1][1]})`,
                   backgroundSize: listSubState.heightAuto ? "cover" : "contain",
                   backgroundPosition:
                     target === "stand-image" ? "center" : "unset",
@@ -141,14 +141,14 @@ const ListImageMode2 = () => {
             <div
               key={index + 7}
               className={`${styles["item-wrapper"]}  itemQuery`}
-              data-text={`${item[0]}-${item[1].split(".")[0]}`}
+              data-text={`${item[0][1]}-${item[1][1]}`}
             >
               <div
                 className={`${styles.item} ${
                   effectState.shakeEffect.active ? styles.shake : ""
                 }`}
                 style={{
-                  ["--img" as any]: `url(/${target}/folder-${item[0]}/${item[1]})`,
+                  ["--img" as any]: `url(/${target}/${item[0][1]}/${item[1][1]})`,
                   backgroundSize: listSubState.heightAuto ? "cover" : "contain",
                   backgroundPosition:
                     target === "stand-image" ? "center" : "unset",
@@ -162,14 +162,14 @@ const ListImageMode2 = () => {
             <div
               key={index + 14}
               className={`${styles["item-wrapper"]}  itemQuery`}
-              data-text={`${item[0]}-${item[1].split(".")[0]}`}
+              data-text={`${item[0][1]}-${item[1][1]}`}
             >
               <div
                 className={`${styles.item} ${
                   effectState.shakeEffect.active ? styles.shake : ""
                 }`}
                 style={{
-                  ["--img" as any]: `url(/${target}/folder-${item[0]}/${item[1]})`,
+                  ["--img" as any]: `url(/${target}/${item[0][1]}/${item[1][1]})`,
                   backgroundSize: listSubState.heightAuto ? "cover" : "contain",
                   backgroundPosition:
                     target === "stand-image" ? "center" : "unset",

@@ -1,6 +1,6 @@
 import styles from "./Icon.module.css";
-import { useEffectState } from "../../context/EffectStateContext";
 import { GiAbstract024 } from "react-icons/gi";
+import { useEffectState } from "../../context/EffectState/EffectStateContext";
 
 const MirrorEffectControl = () => {
   const { effectState, effectStateDispatch } = useEffectState();

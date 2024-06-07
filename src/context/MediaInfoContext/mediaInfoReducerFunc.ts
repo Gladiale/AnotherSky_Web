@@ -1,24 +1,24 @@
 import { RandomTargetType } from "../../components/ControlIcon/RandomControl";
-import { toFirstFolder } from "../../helper/toFirstFolder";
-import { toFirstFunc } from "../../helper/toFirstFunc";
-import { toFirsVoice } from "../../helper/toFirstVoice";
-import { toLastFolder } from "../../helper/toLastFolder";
-import { toLastFunc } from "../../helper/toLastFunc";
-import { toLastVoice } from "../../helper/toLastVoice";
-import { toNextFolder } from "../../helper/toNextFolder";
-import { toNextFunc } from "../../helper/toNextFunc";
-import { toNextVoice } from "../../helper/toNextVoice";
-import { toNextVoiceFolder } from "../../helper/toNextVoiceFolder";
-import { toPrevFolder } from "../../helper/toPrevFolder";
-import { toPrevFunc } from "../../helper/toPrevFunc";
-import { toPrevVoice } from "../../helper/toPrevVoice";
-import { toRandomFunc } from "../../helper/toRandomFunc";
-import { toRandomWithSelect } from "../../helper/toRandomWithSelect";
-import {
-  type SpecificPayloadType,
-  toSpecificFile,
-} from "../../helper/toSpecificFile";
 import { type SceneType } from "../SceneContext";
+import { fileFirstFunc } from "./MediaInfoFunc/common/fileFirstFunc";
+import { fileLastFunc } from "./MediaInfoFunc/common/fileLastFunc";
+import { fileNextFunc } from "./MediaInfoFunc/common/fileNextFunc";
+import { filePrevFunc } from "./MediaInfoFunc/common/filePrevFunc";
+import { folderNextRandomFile } from "./MediaInfoFunc/common/folderNextRandomFile";
+import { toMediaFilePrev } from "./MediaInfoFunc/dispatch/ToMediaFilePrev";
+import { toMediaFileFirst } from "./MediaInfoFunc/dispatch/toMediaFileFirst";
+import { toMediaFileLast } from "./MediaInfoFunc/dispatch/toMediaFileLast";
+import { toMediaFileNext } from "./MediaInfoFunc/dispatch/toMediaFileNext";
+import { toMediaFolderFirst } from "./MediaInfoFunc/dispatch/toMediaFolderFirst";
+import { toMediaFolderLast } from "./MediaInfoFunc/dispatch/toMediaFolderLast";
+import { toMediaFolderNext } from "./MediaInfoFunc/dispatch/toMediaFolderNext";
+import { toMediaFolderPrev } from "./MediaInfoFunc/dispatch/toMediaFolderPrev";
+import { toMediaRandom } from "./MediaInfoFunc/dispatch/toMediaRandom";
+import { toMediaRandomWithParam } from "./MediaInfoFunc/dispatch/toMediaRandomWithParam";
+import {
+  toMediaSpecificFile,
+  type SpecificPayloadType,
+} from "./MediaInfoFunc/dispatch/toMediaSpecificFile";
 import { type MediaInfoType } from "./mediaInfo";
 
 type MainActionType = {
@@ -41,7 +41,10 @@ type SubActionType = {
     | "voicePrev"
     | "voiceFolderNext"
     | "voiceFirst"
-    | "voiceLast";
+    | "voiceLast"
+    | "effectNext"
+    | "effectPrev"
+    | "effectFolderNext";
 };
 
 type OtherActionType = {
@@ -63,53 +66,43 @@ type ActionType =
 function reducerFunc(state: MediaInfoType, action: ActionType) {
   switch (action.type) {
     case "next":
-      const nextMedia = toNextFunc(action.payload, state);
-      return { ...state, ...nextMedia };
+      return toMediaFileNext(state, action.payload);
     case "prev":
-      const prevMedia = toPrevFunc(action.payload, state);
-      return { ...state, ...prevMedia };
+      return toMediaFilePrev(state, action.payload);
     case "first":
-      const firstMedia = toFirstFunc(action.payload, state);
-      return { ...state, ...firstMedia };
+      return toMediaFileFirst(state, action.payload);
     case "last":
-      const lastMedia = toLastFunc(action.payload, state);
-      return { ...state, ...lastMedia };
+      return toMediaFileLast(state, action.payload);
     case "folderNext":
-      const folderNextMedia = toNextFolder(action.payload, state);
-      return { ...state, ...folderNextMedia };
+      return toMediaFolderNext(state, action.payload);
     case "folderPrev":
-      const folderPrevMedia = toPrevFolder(action.payload, state);
-      return { ...state, ...folderPrevMedia };
+      return toMediaFolderPrev(state, action.payload);
     case "folderFirst":
-      const folderFirstMedia = toFirstFolder(action.payload, state);
-      return { ...state, ...folderFirstMedia };
+      return toMediaFolderFirst(state, action.payload);
     case "folderLast":
-      const folderLastMedia = toLastFolder(action.payload, state);
-      return { ...state, ...folderLastMedia };
+      return toMediaFolderLast(state, action.payload);
     case "voiceNext":
-      const voiceNextMedia = toNextVoice(state);
-      return { ...state, ...voiceNextMedia };
+      return fileNextFunc(state, "voice");
     case "voicePrev":
-      const voicePrevMedia = toPrevVoice(state);
-      return { ...state, ...voicePrevMedia };
+      return filePrevFunc(state, "voice");
     case "voiceFirst":
-      const voiceFirstMedia = toFirsVoice(state);
-      return { ...state, ...voiceFirstMedia };
+      return fileFirstFunc(state, "voice");
     case "voiceLast":
-      const voiceLastMedia = toLastVoice(state);
-      return { ...state, ...voiceLastMedia };
+      return fileLastFunc(state, "voice");
     case "voiceFolderNext":
-      const voiceFolderNextMedia = toNextVoiceFolder(state);
-      return { ...state, ...voiceFolderNextMedia };
+      return folderNextRandomFile(state, "voice");
+    case "effectNext":
+      return fileNextFunc(state, "effect");
+    case "effectPrev":
+      return filePrevFunc(state, "effect");
+    case "effectFolderNext":
+      return folderNextRandomFile(state, "effect");
     case "random":
-      const randomMedia = toRandomFunc();
-      return { ...state, ...randomMedia };
+      return toMediaRandom();
     case "randomWithSelect":
-      const randomNotVoiceMedia = toRandomWithSelect(action.payload, state);
-      return { ...state, ...randomNotVoiceMedia };
+      return toMediaRandomWithParam(state, action.payload);
     case "specific":
-      const specificMedia = toSpecificFile(action.payload, state);
-      return { ...state, ...specificMedia };
+      return toMediaSpecificFile(state, action.payload);
     default:
       throw new Error("不明なactionです");
   }

@@ -1,0 +1,1 @@
+export const VideoDataObj = {"folder-01":["001.mkv","002.mp4","003.mp4","あたしの裸よ.mp4"]}

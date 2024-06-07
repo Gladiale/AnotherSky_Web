@@ -1,29 +1,36 @@
-export const voiceFolderList = ["song", "music", "sound"];
-
 type MediaInfoType = {
-  cgFolder: string;
-  standFolder: string;
-  videoFolder: string;
-  voiceFolder: string;
+  folder: {
+    cgFolder: [number, string];
+    standFolder: [number, string];
+    videoFolder: [number, string];
+    voiceFolder: [number, string];
+    effectFolder: [number, string];
+  };
 
-  cgFile: string;
-  standFile: string;
-  videoFile: string;
-  voiceFile: string;
-  effectFile: string;
+  file: {
+    cgFile: [number, string];
+    standFile: [number, string];
+    videoFile: [number, string];
+    voiceFile: [number, string];
+    effectFile: [number, string];
+  };
 };
 
 const mediaInfoInit: MediaInfoType = {
-  cgFolder: "",
-  standFolder: "",
-  videoFolder: "",
-  voiceFolder: voiceFolderList[0],
-
-  cgFile: "",
-  standFile: "",
-  videoFile: "",
-  voiceFile: "",
-  effectFile: "",
+  folder: {
+    cgFolder: [0, ""],
+    standFolder: [0, ""],
+    videoFolder: [0, ""],
+    voiceFolder: [0, ""],
+    effectFolder: [0, ""],
+  },
+  file: {
+    cgFile: [0, ""],
+    standFile: [0, ""],
+    videoFile: [0, ""],
+    voiceFile: [0, ""],
+    effectFile: [0, ""],
+  },
 };
 
-export { mediaInfoInit, type MediaInfoType };
+export { type MediaInfoType, mediaInfoInit };

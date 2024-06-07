@@ -3,20 +3,20 @@ import { useEffect, useState } from "react";
 import { useImageList } from "../../context/ImageListState";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
 import { createRandomImg } from "../../helper/createRandomImg";
-import { type SpecificPayloadType } from "../../helper/toSpecificFile";
 import { useScene } from "../../context/SceneContext";
-import { useSwirlDeg } from "../../context/SwirlContext";
-import { useEffectState } from "../../context/EffectStateContext";
 import { useFilter } from "../../context/FilterContext";
+import { useEffectState } from "../../context/EffectState/EffectStateContext";
+import { useRotateY } from "../../context/RotateYContext";
+import { type SpecificPayloadType } from "../../context/MediaInfoContext/MediaInfoFunc/dispatch/toMediaSpecificFile";
 
 const ListImage = () => {
   const { listState, listSubState, setListState } = useImageList();
   const { mediaState, mediaDispatch } = useMediaInfo();
   const { setScene } = useScene();
-  const { swirlState } = useSwirlDeg();
+  const { rotateYState } = useRotateY();
   const { effectState } = useEffectState();
   const { filterState } = useFilter();
-  const [imageInfoList, setImageInfoList] = useState<string[][]>([]);
+  const [imageInfoList, setImageInfoList] = useState<[number, string][][]>([]);
 
   // 左クリック
   const changeCardCg = (
@@ -46,7 +46,7 @@ const ListImage = () => {
   }
 
   useEffect(() => {
-    const imageList: string[][] = [];
+    const imageList: [number, string][][] = [];
 
     if (listState.cg) {
       target = "cg-image";
@@ -66,7 +66,7 @@ const ListImage = () => {
       <div
         className={styles["list-container"]}
         style={{
-          transform: `rotateY(${swirlState.listSwirlDeg}deg)`,
+          transform: `rotateY(${rotateYState.listImgRotateY ? 180 : 0}deg)`,
           filter: effectState.filterEffect.targetCard
             ? `opacity(${filterState.opacity}%) brightness(${filterState.brightness}%) contrast(${filterState.contrast}%) grayscale(${filterState.grayscale}%) hue-rotate(${filterState.hueRotate}deg) invert(${filterState.invert}%) saturate(${filterState.saturate}%) sepia(${filterState.sepia}%)`
             : undefined,
@@ -84,13 +84,13 @@ const ListImage = () => {
             ${effectState.shakeEffect.active ? styles.shake : ""}
             `}
             style={{ ["--i" as any]: index - 4 }}
-            data-text={`${item[0]}-${item[1].split(".")[0]}`}
+            data-text={`${item[0][1]}-${item[1][1]}`}
           >
             <img
               className={`${listState.stand ? styles.isStand : styles.isCG} ${
                 listSubState.heightAuto ? styles.heightAuto : ""
               }`}
-              src={`/${target}/folder-${item[0]}/${item[1]}`}
+              src={`/${target}/${item[0][1]}/${item[1][1]}`}
               onClick={() => changeCardCg(target, index)}
             />
           </div>

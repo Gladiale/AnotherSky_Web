@@ -2,8 +2,8 @@ import { useState } from "react";
 import styles from "./CardImage.module.css";
 import CardImageCG from "../CardImageCG/CardImageCG";
 import CardImageStand from "../CardImageStand/CardImageStand";
-import { useSwirlDeg } from "../../context/SwirlContext";
 import { type SceneType } from "../../context/SceneContext";
+import { useRotateY } from "../../context/RotateYContext";
 
 type PropsType = {
   scene: SceneType;
@@ -20,14 +20,16 @@ const CardImage = (props: PropsType) => {
     y: number;
   }>({ x: 0, y: 0 });
 
-  const { swirlState } = useSwirlDeg();
+  const { rotateYState } = useRotateY();
 
   return (
     <div
       className={styles["cg-wrapper"]}
       style={{
         scale: isPictureMode ? String(pictureScale) : "1",
-        transform: `translate(${picturePosition.x}px, ${picturePosition.y}px) rotateY(${swirlState.cgSwirlDeg}deg)`,
+        transform: `translate(${picturePosition.x}px, ${
+          picturePosition.y
+        }px) rotateY(${rotateYState.cgRotateY ? 180 : 0}deg)`,
       }}
     >
       {scene === "card-stand" ? (

@@ -12,14 +12,14 @@ const Information = () => {
         isHovered.iconHover ? styles["Info-hovered"] : ""
       }`}
     >
-      <p>{`立ち絵「${mediaState.standFolder}-${
-        mediaState.standFile.split(".")[0]
-      }」`}</p>
-      <p>{`ボイス「${mediaState.voiceFile.split(".")[0]}」画像「${
-        mediaState.cgFolder
-      }-${mediaState.cgFile.split(".")[0]}」動画「${mediaState.videoFolder}-${
-        mediaState.videoFile.split(".")[0]
-      }」`}</p>
+      <p>{`立ち絵「${mediaState.folder.standFolder[0] + 1}-${
+        mediaState.file.standFile[0] + 1
+      }」エフェクト「${mediaState.file.effectFile[0] + 1}」`}</p>
+      <p>{`ボイス「${mediaState.file.voiceFile[0] + 1}」画像「${
+        mediaState.folder.cgFolder[0] + 1
+      }-${mediaState.file.cgFile[0] + 1}」動画「${
+        mediaState.folder.videoFolder[0] + 1
+      }-${mediaState.file.videoFile[0] + 1}」`}</p>
     </div>
   );
 };

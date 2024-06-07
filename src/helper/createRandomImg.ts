@@ -1,36 +1,41 @@
 import { type ImageListType } from "../context/ImageListState";
 import { type MediaInfoType } from "../context/MediaInfoContext/mediaInfo";
-import { maxInfo } from "../data/allInfo";
-import { getRandomCG, getRandomFolder, getRandomStand } from "./getRandomFile";
+import { CGDataObj } from "../data/CGDataObj";
+import { StandImgDataObj } from "../data/StandImgDataObj";
+import { getRandomFile, getRandomFolderFile } from "./dataObjControl";
 
 const createRandomImg = (
-  imageInfoList: string[][],
+  imageInfoList: [number, string][][],
   listState: ImageListType,
   mediaState: MediaInfoType
 ) => {
-  let folderName: string;
-  let fileName: string;
+  let folder: [number, string];
+  let file: [number, string];
 
   if (listState.folder) {
     if (listState.cg) {
-      folderName = getRandomFolder(maxInfo.maxCgFolder);
-      fileName = getRandomCG(folderName);
+      const cgData = getRandomFolderFile(CGDataObj);
+      folder = cgData.folder;
+      file = cgData.file;
     } else {
-      folderName = getRandomFolder(maxInfo.maxStandFolder);
-      fileName = getRandomStand(folderName);
+      const standData = getRandomFolderFile(StandImgDataObj);
+      folder = standData.folder;
+      file = standData.file;
     }
-    return imageInfoList.push([folderName, fileName]);
+    return imageInfoList.push([folder, file]);
   }
 
   if (listState.cg) {
-    folderName = mediaState.cgFolder;
-    fileName = getRandomCG(folderName);
+    folder = mediaState.folder.cgFolder;
+    const cgData = getRandomFile(CGDataObj, folder[1]);
+    file = cgData;
   } else {
-    folderName = mediaState.standFolder;
-    fileName = getRandomStand(folderName);
+    folder = mediaState.folder.standFolder;
+    const standData = getRandomFile(CGDataObj, folder[1]);
+    file = standData;
   }
 
-  return imageInfoList.push([folderName, fileName]);
+  return imageInfoList.push([folder, file]);
 };
 
 export { createRandomImg };

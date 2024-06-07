@@ -6,7 +6,7 @@ import ListImage from "../ListImage/ListImage";
 import ListImageMode2 from "../ListImageMode2/ListImageMode2";
 import { useScene } from "../../context/SceneContext";
 import { useImageList } from "../../context/ImageListState";
-import { useEffectState } from "../../context/EffectStateContext";
+import { useEffectState } from "../../context/EffectState/EffectStateContext";
 
 const Content = () => {
   const { scene } = useScene();
@@ -21,6 +21,7 @@ const Content = () => {
     >
       {scene != "card-stand" && <StandImage />}
       {(scene === "card-cg" || scene === "card-stand") && <Card />}
+      {/* bugの原因はここにあると思います */}
       {scene === "card-listImg" && !listSubState.mode2 && <ListImage />}
       {scene === "card-listImg" && listSubState.mode2 && <ListImageMode2 />}
       {scene === "card-video" && <Video />}

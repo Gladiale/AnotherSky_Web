@@ -1,15 +1,26 @@
-.video-box {
+.video-content {
   cursor: crosshair;
   transition: 0.5s;
   animation: poyon 1.1s linear 0s 1;
   filter: drop-shadow(0 0 5px #ff00d4) drop-shadow(0 0 15px #ff00d4);
+  position: relative;
   z-index: 9;
-
-  /* transform-style: preserve-3d;
-  perspective: 2000px; */
 }
 
-.video-box video {
+.video-content .video-box {
+  transform-style: preserve-3d;
+  perspective: 1500px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video-content .video-box:hover {
+  animation: bounce_video 0.5s ease alternate infinite;
+}
+
+.video-content .video-box video {
   object-fit: cover;
   /* videoの縦方向を中央寄せ */
   display: grid;
@@ -17,21 +28,17 @@
   transition: 0.5s;
 }
 
-/* .video-box video:hover {
-  animation: bounce_video 0.5s ease alternate infinite;
-} */
-
-.video-box video.cardMode {
+.video-content .video-box video.cardMode {
   height: 872px;
 }
-.video-box video.cgMode {
+.video-content .video-box video.cgMode {
   height: 99dvh;
 }
-.video-box video.originalSize {
+.video-content .video-box video.originalSize {
   height: 100%;
 }
-.video-box video.customSize {
-  height: 900px;
+.video-content .video-box video.customSize {
+  height: 850px;
 }
 
 @keyframes bounce_video {

@@ -1,41 +1,20 @@
 import styles from "./StandImage.module.css";
 import { useState } from "react";
-import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
-import { getRandomVoice } from "../../helper/getRandomFile";
-import { useSwirlDeg } from "../../context/SwirlContext";
-import { useEffectState } from "../../context/EffectStateContext";
 import { useFilter } from "../../context/FilterContext";
+import { useEffectState } from "../../context/EffectState/EffectStateContext";
+import ImageParts from "./ImageParts";
+import { useRotateY } from "../../context/RotateYContext";
 
 type PropsType = {
   imgStyle?: React.CSSProperties;
 };
 
 const StandImage = ({ imgStyle }: PropsType) => {
-  const [vocal, setVocal] = useState<string>("");
-  const [hasVocal, setHasVocal] = useState<boolean>(false);
   const [imgMoveValue, setImgMoveValue] = useState<string>("");
 
-  const { mediaState, mediaDispatch } = useMediaInfo();
-  const { swirlState } = useSwirlDeg();
+  const { rotateYState } = useRotateY();
   const { effectState } = useEffectState();
   const { filterState } = useFilter();
-
-  const changeStandImage = (e: React.WheelEvent) => {
-    if (e.deltaY > 0) {
-      mediaDispatch({ type: "next", payload: "card-stand" });
-    } else {
-      mediaDispatch({ type: "prev", payload: "card-stand" });
-    }
-  };
-
-  const handleVocal = (e: React.MouseEvent<HTMLImageElement>) => {
-    e.stopPropagation();
-    // ランダムなボイスを取得
-    // const voiceFolder = getRandomVoiceFolder();
-    const voiceFile = getRandomVoice("sound");
-    setVocal(`/voice/sound/${voiceFile}`);
-    setHasVocal(true);
-  };
 
   const handleAspect = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const width = e.currentTarget.naturalWidth;
@@ -65,6 +44,9 @@ const StandImage = ({ imgStyle }: PropsType) => {
     return setImgMoveValue("-32%");
   };
 
+  const filterShadow = `drop-shadow(0 0 5px #86fff3) drop-shadow(0 0 15px #fc3eff)`;
+  const filterNoShadow = `opacity(${filterState.opacity}%) brightness(${filterState.brightness}%) contrast(${filterState.contrast}%) grayscale(${filterState.grayscale}%) hue-rotate(${filterState.hueRotate}deg) invert(${filterState.invert}%) saturate(${filterState.saturate}%) sepia(${filterState.sepia}%)`;
+
   return (
     <div
       className={`${styles["stand-container"]} ${
@@ -75,15 +57,18 @@ const StandImage = ({ imgStyle }: PropsType) => {
           ? `translateX(${imgMoveValue})`
           : imgStyle?.transform,
       }}
-      onWheel={changeStandImage}
     >
       <div
         className={styles["stand-wrapper"]}
         style={{
-          transform: `rotateY(${swirlState.cardSwirlDeg}deg)`,
+          transform: `rotateY(${rotateYState.standImgRotateY ? 180 : 0}deg)`,
           imageRendering: effectState.pixelEffect ? "pixelated" : undefined,
           filter: effectState.filterEffect.targetStand
-            ? `drop-shadow(0 0 5px #86fff3) drop-shadow(0 0 15px #fc3eff) opacity(${filterState.opacity}%) brightness(${filterState.brightness}%) contrast(${filterState.contrast}%) grayscale(${filterState.grayscale}%) hue-rotate(${filterState.hueRotate}deg) invert(${filterState.invert}%) saturate(${filterState.saturate}%) sepia(${filterState.sepia}%)`
+            ? effectState.filterEffect.dropShadow
+              ? filterShadow + filterNoShadow
+              : filterNoShadow
+            : effectState.filterEffect.dropShadow
+            ? filterShadow
             : undefined,
           display:
             effectState.mirrorEffect &&
@@ -93,20 +78,8 @@ const StandImage = ({ imgStyle }: PropsType) => {
               : undefined,
         }}
       >
-        <img
-          className={styles["stand-img"]}
-          src={`/stand-image/folder-${mediaState.standFolder}/${mediaState.standFile}`}
-          onClick={handleVocal}
-          onLoad={handleAspect}
-        />
+        <ImageParts handleAspect={handleAspect} />
       </div>
-      {hasVocal && (
-        <audio
-          src={`${vocal}`}
-          autoPlay
-          onEnded={() => setHasVocal((prev) => !prev)}
-        ></audio>
-      )}
     </div>
   );
 };

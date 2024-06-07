@@ -6,10 +6,10 @@ import CardClip from "../CardClip/CardClip";
 import CardImage from "../CardImage/CardImage";
 import { useHover } from "../../context/HoverContext";
 import { useScreenMode } from "../../context/ScreenContext";
-import { useSwirlDeg } from "../../context/SwirlContext";
-import { useEffectState } from "../../context/EffectStateContext";
 import { useFilter } from "../../context/FilterContext";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
+import { useEffectState } from "../../context/EffectState/EffectStateContext";
+import { useRotateY } from "../../context/RotateYContext";
 
 const Card = () => {
   const [isPictureMode, setIsPictureMode] = useState<boolean>(false);
@@ -18,7 +18,7 @@ const Card = () => {
   const { scene, setScene } = useScene();
   const { mediaDispatch } = useMediaInfo();
   const { screenMode } = useScreenMode();
-  const { swirlState } = useSwirlDeg();
+  const { rotateYState } = useRotateY();
   const { effectState } = useEffectState();
   const { filterState } = useFilter();
 
@@ -83,7 +83,9 @@ const Card = () => {
       onContextMenu={resetScene}
       onWheel={changeImage}
       style={{
-        transform: `rotate(${rotateCardDeg}deg) rotateY(${swirlState.cardSwirlDeg}deg)`,
+        transform: `rotate(${rotateCardDeg}deg) rotateY(${
+          rotateYState.cardRotateY ? 180 : 0
+        }deg)`,
         overflow:
           (isPictureMode && effectState.mirrorEffect) || scene === "card-stand"
             ? "hidden"
@@ -93,6 +95,10 @@ const Card = () => {
         filter: effectState.filterEffect.targetCard
           ? `drop-shadow(0 0 5px #86fff3) drop-shadow(0 0 15px #fc3eff) opacity(${filterState.opacity}%) brightness(${filterState.brightness}%) contrast(${filterState.contrast}%) grayscale(${filterState.grayscale}%) hue-rotate(${filterState.hueRotate}deg) invert(${filterState.invert}%) saturate(${filterState.saturate}%) sepia(${filterState.sepia}%)`
           : undefined,
+        boxShadow:
+          effectState.filterEffect.targetCard && scene === "card-stand"
+            ? "0 0 0 5px #0009"
+            : undefined,
       }}
     >
       <CardImage

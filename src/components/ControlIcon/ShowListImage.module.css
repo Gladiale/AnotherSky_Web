@@ -133,16 +133,18 @@
   position: relative;
 }
 
+/* .showList-container .target-box label input[type="radio"]:checked {
+  border-color: #7bffbb;
+} */
+
 .showList-container .target-box label input[type="radio"]:checked::before {
   content: "";
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
+  margin: auto;
   width: 0.45rem;
   height: 0.45rem;
   border-radius: 50%;
-  border-color: #93ffeb;
   background: #ed8be9;
 }
 
