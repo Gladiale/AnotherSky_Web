@@ -2,7 +2,7 @@ import styles from "./ImageParts.module.css";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
 import { useState } from "react";
 import { useEffectState } from "../../context/EffectState/EffectStateContext";
-import { getRandomFolderFile } from "../../helper/dataObjControl";
+import { getRandomFile } from "../../helper/dataObjControl";
 import { VoiceDataObj } from "../../data/VoiceDataObj";
 
 type PropsType = {
@@ -18,8 +18,8 @@ const ImageParts = ({ handleAspect }: PropsType) => {
   const handleVocal = (e: React.MouseEvent<HTMLImageElement>) => {
     e.stopPropagation();
     // ランダムなボイスを取得
-    const voiceData = getRandomFolderFile(VoiceDataObj);
-    setVocal(`/voice/${voiceData.folder[1]}/${voiceData.file[1]}`);
+    const voiceData = getRandomFile(VoiceDataObj, "sound");
+    setVocal(`/voice/sound/${voiceData[1]}`);
     setHasVocal(true);
   };
 

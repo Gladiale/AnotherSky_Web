@@ -16,9 +16,9 @@
   align-items: center;
 }
 
-.video-content .video-box:hover {
+/* .video-content .video-box:hover {
   animation: bounce_video 0.5s ease alternate infinite;
-}
+} */
 
 .video-content .video-box video {
   object-fit: cover;
