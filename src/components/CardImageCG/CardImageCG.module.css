@@ -35,11 +35,13 @@
 .img-box .blendMode .cg-img {
   height: 100%;
   width: 100%;
+  transition: 0.5s;
 }
 
 .img-box .blendMode .texture-img {
   height: 100%;
   width: 100%;
+  transition: 0.5s;
   position: absolute;
   inset: 0;
   margin: auto;
