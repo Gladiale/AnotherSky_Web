@@ -1,5 +1,5 @@
 import styles from "./ListImage.module.css";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useImageList } from "../../context/ImageListState";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
 import { createRandomImg } from "../../helper/createRandomImg";
@@ -45,7 +45,8 @@ const ListImage = () => {
     target = "stand-image";
   }
 
-  useEffect(() => {
+  // useLayoutEffectはuseEffectの先に実行　と　値が画面を反映する前実行
+  useLayoutEffect(() => {
     const imageList: [number, string][][] = [];
 
     if (listState.cg) {
@@ -61,43 +62,41 @@ const ListImage = () => {
     setImageInfoList(imageList);
   }, [listState]);
 
-  if (imageInfoList.length === 9) {
-    return (
-      <div
-        className={styles["list-container"]}
-        style={{
-          transform: `rotateY(${rotateYState.listImgRotateY ? 180 : 0}deg)`,
-          filter: effectState.filterEffect.targetCard
-            ? `opacity(${filterState.opacity}%) brightness(${filterState.brightness}%) contrast(${filterState.contrast}%) grayscale(${filterState.grayscale}%) hue-rotate(${filterState.hueRotate}deg) invert(${filterState.invert}%) saturate(${filterState.saturate}%) sepia(${filterState.sepia}%)`
-            : undefined,
-        }}
-        onContextMenu={resetCardScene}
-        onWheel={() =>
-          setListState((prev) => ({ ...prev, random: !prev.random }))
-        }
-      >
-        {imageInfoList.map((item, index) => (
-          <div
-            key={index}
-            className={`${styles["list-card"]}
+  return (
+    <div
+      className={styles["list-container"]}
+      style={{
+        transform: `rotateY(${rotateYState.listImgRotateY ? 180 : 0}deg)`,
+        filter: effectState.filterEffect.targetCard
+          ? `opacity(${filterState.opacity}%) brightness(${filterState.brightness}%) contrast(${filterState.contrast}%) grayscale(${filterState.grayscale}%) hue-rotate(${filterState.hueRotate}deg) invert(${filterState.invert}%) saturate(${filterState.saturate}%) sepia(${filterState.sepia}%)`
+          : undefined,
+      }}
+      onContextMenu={resetCardScene}
+      onWheel={() =>
+        setListState((prev) => ({ ...prev, random: !prev.random }))
+      }
+    >
+      {imageInfoList.map((item, index) => (
+        <div
+          key={index}
+          className={`${styles["list-card"]}
             ${listState.random ? styles.againAni : styles.ani}
             ${effectState.shakeEffect.active ? styles.shake : ""}
             `}
-            style={{ ["--i" as any]: index - 4 }}
-            data-text={`${item[0][1]}-${item[1][1]}`}
-          >
-            <img
-              className={`${listState.stand ? styles.isStand : styles.isCG} ${
-                listSubState.heightAuto ? styles.heightAuto : ""
-              }`}
-              src={`/${target}/${item[0][1]}/${item[1][1]}`}
-              onClick={() => changeCardCg(target, index)}
-            />
-          </div>
-        ))}
-      </div>
-    );
-  }
+          style={{ ["--i" as any]: index - 4 }}
+          data-text={`${item[0][1]}-${item[1][1]}`}
+        >
+          <img
+            className={`${listState.stand ? styles.isStand : styles.isCG} ${
+              listSubState.heightAuto ? styles.heightAuto : ""
+            }`}
+            src={`/${target}/${item[0][1]}/${item[1][1]}`}
+            onClick={() => changeCardCg(target, index)}
+          />
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default ListImage;

@@ -1,5 +1,5 @@
 import styles from "./ListImageMode2.module.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useFilter } from "../../context/FilterContext";
 import { useImageList } from "../../context/ImageListState";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
@@ -54,7 +54,7 @@ const ListImageMode2 = () => {
     target = "stand-image";
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const imageList: [number, string][][] = [];
     if (listState.cg) {
       target = "cg-image";
@@ -101,87 +101,85 @@ const ListImageMode2 = () => {
     }
   }, [changeInfo.changed]);
 
-  if (imageInfoList.length === 7) {
-    return (
-      <div
-        className={`${styles["list-container"]}  ${
-          screenMode != "cardMode" ? styles.big : ""
-        }`}
-        style={{
-          transform: `rotateY(${rotateYState.listImgRotateY ? 180 : 0}deg)`,
-          filter: effectState.filterEffect.targetCard
-            ? `opacity(${filterState.opacity}%) brightness(${filterState.brightness}%) contrast(${filterState.contrast}%) grayscale(${filterState.grayscale}%) hue-rotate(${filterState.hueRotate}deg) invert(${filterState.invert}%) saturate(${filterState.saturate}%) sepia(${filterState.sepia}%)`
-            : undefined,
-        }}
-        onContextMenu={resetCardScene}
-      >
-        <div className={styles["img-box"]} ref={imgBoxRef} onWheel={moveImg}>
-          {imageInfoList.map((item, index) => (
+  return (
+    <div
+      className={`${styles["list-container"]}  ${
+        screenMode != "cardMode" ? styles.big : ""
+      }`}
+      style={{
+        transform: `rotateY(${rotateYState.listImgRotateY ? 180 : 0}deg)`,
+        filter: effectState.filterEffect.targetCard
+          ? `opacity(${filterState.opacity}%) brightness(${filterState.brightness}%) contrast(${filterState.contrast}%) grayscale(${filterState.grayscale}%) hue-rotate(${filterState.hueRotate}deg) invert(${filterState.invert}%) saturate(${filterState.saturate}%) sepia(${filterState.sepia}%)`
+          : undefined,
+      }}
+      onContextMenu={resetCardScene}
+    >
+      <div className={styles["img-box"]} ref={imgBoxRef} onWheel={moveImg}>
+        {imageInfoList.map((item, index) => (
+          <div
+            key={index}
+            className={`${styles["item-wrapper"]}  itemQuery`}
+            data-text={`${item[0][1]}-${item[1][1]}`}
+          >
             <div
-              key={index}
-              className={`${styles["item-wrapper"]}  itemQuery`}
-              data-text={`${item[0][1]}-${item[1][1]}`}
-            >
-              <div
-                className={`${styles.item} ${
-                  effectState.shakeEffect.active ? styles.shake : ""
-                }`}
-                style={{
-                  ["--img" as any]: `url(/${target}/${item[0][1]}/${item[1][1]})`,
-                  backgroundSize: listSubState.heightAuto ? "cover" : "contain",
-                  backgroundPosition:
-                    target === "stand-image" ? "center" : "unset",
-                }}
-                onClick={() => changeCardCg(target, index)}
-              />
-            </div>
-          ))}
+              className={`${styles.item} ${
+                effectState.shakeEffect.active ? styles.shake : ""
+              }`}
+              style={{
+                ["--img" as any]: `url(/${target}/${item[0][1]}/${item[1][1]})`,
+                backgroundSize: listSubState.heightAuto ? "cover" : "contain",
+                backgroundPosition:
+                  target === "stand-image" ? "center" : "unset",
+              }}
+              onClick={() => changeCardCg(target, index)}
+            />
+          </div>
+        ))}
 
-          {imageInfoList.map((item, index) => (
+        {imageInfoList.map((item, index) => (
+          <div
+            key={index + 7}
+            className={`${styles["item-wrapper"]}  itemQuery`}
+            data-text={`${item[0][1]}-${item[1][1]}`}
+          >
             <div
-              key={index + 7}
-              className={`${styles["item-wrapper"]}  itemQuery`}
-              data-text={`${item[0][1]}-${item[1][1]}`}
-            >
-              <div
-                className={`${styles.item} ${
-                  effectState.shakeEffect.active ? styles.shake : ""
-                }`}
-                style={{
-                  ["--img" as any]: `url(/${target}/${item[0][1]}/${item[1][1]})`,
-                  backgroundSize: listSubState.heightAuto ? "cover" : "contain",
-                  backgroundPosition:
-                    target === "stand-image" ? "center" : "unset",
-                }}
-                onClick={() => changeCardCg(target, index)}
-              />
-            </div>
-          ))}
+              className={`${styles.item} ${
+                effectState.shakeEffect.active ? styles.shake : ""
+              }`}
+              style={{
+                ["--img" as any]: `url(/${target}/${item[0][1]}/${item[1][1]})`,
+                backgroundSize: listSubState.heightAuto ? "cover" : "contain",
+                backgroundPosition:
+                  target === "stand-image" ? "center" : "unset",
+              }}
+              onClick={() => changeCardCg(target, index)}
+            />
+          </div>
+        ))}
 
-          {imageInfoList.map((item, index) => (
+        {imageInfoList.map((item, index) => (
+          <div
+            key={index + 14}
+            className={`${styles["item-wrapper"]}  itemQuery`}
+            data-text={`${item[0][1]}-${item[1][1]}`}
+          >
             <div
-              key={index + 14}
-              className={`${styles["item-wrapper"]}  itemQuery`}
-              data-text={`${item[0][1]}-${item[1][1]}`}
-            >
-              <div
-                className={`${styles.item} ${
-                  effectState.shakeEffect.active ? styles.shake : ""
-                }`}
-                style={{
-                  ["--img" as any]: `url(/${target}/${item[0][1]}/${item[1][1]})`,
-                  backgroundSize: listSubState.heightAuto ? "cover" : "contain",
-                  backgroundPosition:
-                    target === "stand-image" ? "center" : "unset",
-                }}
-                onClick={() => changeCardCg(target, index)}
-              />
-            </div>
-          ))}
-        </div>
+              className={`${styles.item} ${
+                effectState.shakeEffect.active ? styles.shake : ""
+              }`}
+              style={{
+                ["--img" as any]: `url(/${target}/${item[0][1]}/${item[1][1]})`,
+                backgroundSize: listSubState.heightAuto ? "cover" : "contain",
+                backgroundPosition:
+                  target === "stand-image" ? "center" : "unset",
+              }}
+              onClick={() => changeCardCg(target, index)}
+            />
+          </div>
+        ))}
       </div>
-    );
-  }
+    </div>
+  );
 };
 
 export default ListImageMode2;

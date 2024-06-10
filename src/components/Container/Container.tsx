@@ -1,5 +1,5 @@
 import styles from "./Container.module.css";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 import Content from "../Content/Content";
 import Control from "../Control/Control";
@@ -17,7 +17,7 @@ const Container = () => {
   const { screenMode } = useScreenMode();
   const { effectState } = useEffectState();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (mediaState.file.standFile[1] === "") {
       mediaDispatch({ type: "random" });
     }

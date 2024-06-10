@@ -21,7 +21,6 @@ const Content = () => {
     >
       {scene != "card-stand" && <StandImage />}
       {(scene === "card-cg" || scene === "card-stand") && <Card />}
-      {/* bugの原因はここにあると思います */}
       {scene === "card-listImg" && !listSubState.mode2 && <ListImage />}
       {scene === "card-listImg" && listSubState.mode2 && <ListImageMode2 />}
       {scene === "card-video" && <Video />}
