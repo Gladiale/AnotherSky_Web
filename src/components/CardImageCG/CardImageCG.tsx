@@ -1,5 +1,4 @@
 import styles from "./CardImageCG.module.css";
-import { useState } from "react";
 import { useEffectState } from "../../context/EffectState/EffectStateContext";
 import CG from "./CG";
 import EffectImage from "../EffectImage/EffectImage";
@@ -29,7 +28,6 @@ const CardImageCG = ({ data }: { data: PropsType }) => {
     setPicturePosition,
   } = data;
 
-  const [isCharacter, setIsCharacter] = useState<boolean>(false);
   const { effectState } = useEffectState();
 
   const triggerPictureMode = (e: any) => {
@@ -103,14 +101,14 @@ const CardImageCG = ({ data }: { data: PropsType }) => {
         onMouseMove={enterPictureMode}
         onWheel={changeScale}
       >
-        <CG className="cg-img" isCharacter={isCharacter} />
+        <CG className="cg-img" />
         {effectState.blendCG.active && effectState.filterEffect.targetCard && (
-          <CG className="texture-img" isCharacter={isCharacter} />
+          <CG className="texture-img" />
         )}
         {effectState.imageEF.activeImage && <EffectImage />}
       </div>
 
-      <ControlParts setIsCharacter={setIsCharacter} />
+      <ControlParts />
     </div>
   );
 };

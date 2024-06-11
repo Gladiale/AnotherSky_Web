@@ -10,6 +10,10 @@ import { useFilter } from "../../context/FilterContext";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
 import { useEffectState } from "../../context/EffectState/EffectStateContext";
 import { useRotateY } from "../../context/RotateYContext";
+import {
+  useCardCharacterInfo,
+  useCardCharacterState,
+} from "../../context/CardCharacterContext";
 
 const Card = () => {
   const [isPictureMode, setIsPictureMode] = useState<boolean>(false);
@@ -21,6 +25,8 @@ const Card = () => {
   const { rotateYState } = useRotateY();
   const { effectState } = useEffectState();
   const { filterState } = useFilter();
+  const { isCharacter } = useCardCharacterState();
+  const { characterInfoDispatch } = useCardCharacterInfo();
 
   const [rotateCardDeg, setRotateCardDeg] = useState<number>(0);
   // const rotateDegList: number[] = [
@@ -63,10 +69,14 @@ const Card = () => {
 
   const changeImage = (e: React.WheelEvent) => {
     if (!isPictureMode) {
-      if (e.deltaY > 0) {
-        mediaDispatch({ type: "next", payload: scene });
+      if (!isCharacter) {
+        e.deltaY > 0
+          ? mediaDispatch({ type: "next", payload: scene })
+          : mediaDispatch({ type: "prev", payload: scene });
       } else {
-        mediaDispatch({ type: "prev", payload: scene });
+        e.deltaY > 0
+          ? characterInfoDispatch({ type: "next" })
+          : characterInfoDispatch({ type: "prev" });
       }
     }
   };

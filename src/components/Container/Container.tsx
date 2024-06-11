@@ -3,14 +3,15 @@ import { useLayoutEffect } from "react";
 
 import Content from "../Content/Content";
 import Control from "../Control/Control";
+import Information from "../Information/Information";
 import { HoverProvider } from "../../context/HoverContext";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
-import Information from "../Information/Information";
 import { FilterProvider } from "../../context/FilterContext";
 import { useScreenMode } from "../../context/ScreenContext";
 import { ImageListProvider } from "../../context/ImageListState";
 import { useEffectState } from "../../context/EffectState/EffectStateContext";
 import { RotateYProvider } from "../../context/RotateYContext";
+import { CardCharacterProvider } from "../../context/CardCharacterContext";
 
 const Container = () => {
   const { mediaState, mediaDispatch } = useMediaInfo();
@@ -31,15 +32,17 @@ const Container = () => {
       ${screenMode === "cgMode" && styles.cgMode}`}
     >
       <FilterProvider>
-        <RotateYProvider>
-          <HoverProvider>
-            <ImageListProvider>
-              <Content />
-              <Control />
-              <Information />
-            </ImageListProvider>
-          </HoverProvider>
-        </RotateYProvider>
+        <CardCharacterProvider>
+          <RotateYProvider>
+            <HoverProvider>
+              <ImageListProvider>
+                <Content />
+                <Control />
+                <Information />
+              </ImageListProvider>
+            </HoverProvider>
+          </RotateYProvider>
+        </CardCharacterProvider>
       </FilterProvider>
     </div>
   );

@@ -16,6 +16,32 @@ const getFileList = (dataObj: DataObjType, folder: string): string[] => {
   return fileList;
 };
 
+const getNextFile = (
+  dataObj: DataObjType,
+  folder: string,
+  index: number
+): [number, string] => {
+  let nextIndex: number;
+  let nextFile: string;
+  const fileList: string[] = dataObj[folder];
+  index < fileList.length - 1 ? (nextIndex = index + 1) : (nextIndex = 0);
+  nextFile = fileList[nextIndex];
+  return [nextIndex, nextFile];
+};
+
+const getPrevFile = (
+  dataObj: DataObjType,
+  folder: string,
+  index: number
+): [number, string] => {
+  let prevIndex: number;
+  let prevFile: string;
+  const fileList: string[] = dataObj[folder];
+  index === 0 ? (prevIndex = fileList.length - 1) : (prevIndex = index - 1);
+  prevFile = fileList[prevIndex];
+  return [prevIndex, prevFile];
+};
+
 const getRandomFile = (
   dataObj: DataObjType,
   folder: string
@@ -47,6 +73,8 @@ const getRandomFolderFile = (dataObj: DataObjType): RandomFileType => {
 export {
   getFolderList,
   getFileList,
+  getNextFile,
+  getPrevFile,
   getRandomFile,
   getRandomFolder,
   getRandomFolderFile,
