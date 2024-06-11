@@ -4,6 +4,10 @@ import { GiHeartBattery } from "react-icons/gi";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
 import { useScene } from "../../context/SceneContext";
 import { BsDashLg, BsPlusLg } from "react-icons/bs";
+import {
+  useCardCharacterInfo,
+  useCardCharacterState,
+} from "../../context/CardCharacterContext";
 
 const AutoNext = () => {
   // 自動画像変換
@@ -12,6 +16,8 @@ const AutoNext = () => {
 
   const { scene } = useScene();
   const { mediaDispatch } = useMediaInfo();
+  const { isCharacter } = useCardCharacterState();
+  const { characterInfoDispatch } = useCardCharacterInfo();
 
   const handleAutoSpeed = (condition: string) => {
     switch (condition) {
@@ -33,7 +39,9 @@ const AutoNext = () => {
       // console.log("time start");
       intervalId = window.setInterval(() => {
         // console.log("interval running");
-        mediaDispatch({ type: "next", payload: scene });
+        isCharacter
+          ? characterInfoDispatch({ type: "next" })
+          : mediaDispatch({ type: "next", payload: scene });
       }, autoSpeed);
     }
     return () => {
