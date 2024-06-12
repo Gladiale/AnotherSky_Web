@@ -1,7 +1,5 @@
 .img-box {
   height: 100%;
-  width: 100%;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,13 +20,13 @@
 }
 
 .img-box .blendMode {
+  height: 100%;
+  width: fit-content;
+
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-
-  height: 100%;
-  width: 100%;
   cursor: crosshair;
   transition: 0.5s;
   animation: cg_picture 7.5s linear infinite;
@@ -39,14 +37,10 @@
 }
 
 .img-box .blendMode .cg-img {
-  height: 100%;
-  width: 100%;
   transition: 0.5s;
 }
 
 .img-box .blendMode .texture-img {
-  height: 100%;
-  width: 100%;
   transition: 0.5s;
   position: absolute;
   inset: 0;

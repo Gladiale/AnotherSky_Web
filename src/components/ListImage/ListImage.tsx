@@ -8,6 +8,10 @@ import { useFilter } from "../../context/FilterContext";
 import { useEffectState } from "../../context/EffectState/EffectStateContext";
 import { useRotateY } from "../../context/RotateYContext";
 import { type SpecificPayloadType } from "../../context/MediaInfoContext/MediaInfoFunc/dispatch/toMediaSpecificFile";
+import {
+  useCardCharacterInfo,
+  useCardCharacterState,
+} from "../../context/CardCharacterContext";
 
 const ListImage = () => {
   const { listState, listSubState, setListState } = useImageList();
@@ -16,6 +20,8 @@ const ListImage = () => {
   const { rotateYState } = useRotateY();
   const { effectState } = useEffectState();
   const { filterState } = useFilter();
+  const { isCharacter, setIsCharacter } = useCardCharacterState();
+  const { characterInfoDispatch } = useCardCharacterInfo();
   const [imageInfoList, setImageInfoList] = useState<[number, string][][]>([]);
 
   // 左クリック
@@ -29,6 +35,10 @@ const ListImage = () => {
     });
     if (target === "cg-image") {
       setScene("card-cg");
+      if (isCharacter) {
+        setIsCharacter(false);
+        characterInfoDispatch({ type: "deleteData" });
+      }
     }
   };
 

@@ -33,13 +33,10 @@ const CG = ({ className }: PropsType) => {
       src={imgUrl}
       style={{
         objectFit: mediaSize === "custom" ? "contain" : mediaSize,
-        height:
-          mediaSize === "none"
-            ? "auto"
-            : mediaSize === "custom"
-            ? "900px"
-            : undefined,
-        width: mediaSize === "none" ? "auto" : undefined,
+        height: mediaSize === "contain" ? "100%" : "auto",
+        width: "auto",
+        maxHeight: mediaSize === "custom" ? "100dvh" : undefined,
+        maxWidth: mediaSize === "custom" ? "65dvw" : undefined,
       }}
     />
   );

@@ -9,6 +9,10 @@ import { useScreenMode } from "../../context/ScreenContext";
 import { useEffectState } from "../../context/EffectState/EffectStateContext";
 import { useRotateY } from "../../context/RotateYContext";
 import { SpecificPayloadType } from "../../context/MediaInfoContext/MediaInfoFunc/dispatch/toMediaSpecificFile";
+import {
+  useCardCharacterInfo,
+  useCardCharacterState,
+} from "../../context/CardCharacterContext";
 
 const ListImageMode2 = () => {
   const { listState, listSubState, setListState } = useImageList();
@@ -18,6 +22,8 @@ const ListImageMode2 = () => {
   const { effectState } = useEffectState();
   const { filterState } = useFilter();
   const { screenMode } = useScreenMode();
+  const { isCharacter, setIsCharacter } = useCardCharacterState();
+  const { characterInfoDispatch } = useCardCharacterInfo();
 
   const [imageInfoList, setImageInfoList] = useState<[number, string][][]>([]);
   const imgBoxRef = useRef<HTMLDivElement>(null);
@@ -38,6 +44,10 @@ const ListImageMode2 = () => {
     });
     if (target === "cg-image") {
       setScene("card-cg");
+      if (isCharacter) {
+        setIsCharacter(false);
+        characterInfoDispatch({ type: "deleteData" });
+      }
     }
   };
 

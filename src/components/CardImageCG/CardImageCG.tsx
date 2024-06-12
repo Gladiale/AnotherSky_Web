@@ -3,6 +3,7 @@ import { useEffectState } from "../../context/EffectState/EffectStateContext";
 import CG from "./CG";
 import EffectImage from "../EffectImage/EffectImage";
 import ControlParts from "./ControlParts/ControlParts";
+import { useMediaSize } from "../../context/ScreenContext";
 
 type PropsType = {
   isPictureMode: boolean;
@@ -29,6 +30,7 @@ const CardImageCG = ({ data }: { data: PropsType }) => {
   } = data;
 
   const { effectState } = useEffectState();
+  const { mediaSize } = useMediaSize();
 
   const triggerPictureMode = (e: any) => {
     if (e.button === 1) {
@@ -100,6 +102,9 @@ const CardImageCG = ({ data }: { data: PropsType }) => {
         onMouseDown={triggerPictureMode}
         onMouseMove={enterPictureMode}
         onWheel={changeScale}
+        style={{
+          height: mediaSize === "contain" ? undefined : "fit-content",
+        }}
       >
         <CG className="cg-img" />
         {effectState.blendCG.active && effectState.filterEffect.targetCard && (

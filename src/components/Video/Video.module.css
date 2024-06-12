@@ -14,6 +14,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  transition: 0.5s;
+  width: "fit-content";
+}
+
+.video-content .video-box.cardMode {
+  height: 872px;
+}
+.video-content .video-box.cgMode {
+  height: 99dvh;
 }
 
 /* .video-content .video-box:hover {
@@ -21,24 +31,10 @@
 } */
 
 .video-content .video-box video {
-  object-fit: cover;
   /* videoの縦方向を中央寄せ */
   display: grid;
   place-items: center;
   transition: 0.5s;
-}
-
-.video-content .video-box video.cardMode {
-  height: 872px;
-}
-.video-content .video-box video.cgMode {
-  height: 99dvh;
-}
-.video-content .video-box video.originalSize {
-  height: 100%;
-}
-.video-content .video-box video.customSize {
-  height: 850px;
 }
 
 @keyframes bounce_video {
