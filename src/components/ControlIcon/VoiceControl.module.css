@@ -94,7 +94,7 @@
   margin: 0px 0.5rem;
   padding: 1px 4px;
   line-height: 1;
-  width: 6rem;
+  min-width: 6rem;
   text-align: center;
   border: 1px dashed #ffa9ec;
   color: #900075;

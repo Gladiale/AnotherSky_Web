@@ -2,9 +2,8 @@ import "./App.css";
 import { SceneProvider } from "./context/SceneContext";
 import { ScreenProvider } from "./context/ScreenContext";
 import { MediaInfoProvider } from "./context/MediaInfoContext/MediaInfoContext";
-
-import Container from "./components/Container/Container";
 import { EffectStateProvider } from "./context/EffectState/EffectStateContext";
+import Container from "./components/Container/Container";
 
 function App() {
   return (
