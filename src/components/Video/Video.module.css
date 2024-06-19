@@ -27,9 +27,9 @@
   height: 99dvh;
 }
 
-/* .video-content .video-box:hover {
+.video-content .video-box.shake:hover {
   animation: bounce_video 0.5s ease alternate infinite;
-} */
+}
 
 .video-content .video-box video {
   /* videoの縦方向を中央寄せ */

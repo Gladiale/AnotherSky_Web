@@ -7,7 +7,7 @@ const ToPrev = () => {
   const { scene } = useScene();
   const { mediaDispatch } = useMediaInfo();
 
-  const toPrevFolder = (e: any) => {
+  const toPrevFolder = (e: React.MouseEvent<SVGAElement>) => {
     e.preventDefault();
     mediaDispatch({ type: "folderPrev", payload: scene });
   };

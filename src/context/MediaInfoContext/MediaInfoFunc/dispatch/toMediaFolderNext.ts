@@ -8,7 +8,7 @@ const toMediaFolderNext = (
 ): MediaInfoType => {
   switch (scene) {
     case "card-stand":
-      return folderNextFunc(state, "stand");
+      return folderNextFunc(state, "character");
     case "card-cg":
       return folderNextFunc(state, "cg");
     default:

@@ -9,15 +9,13 @@ const FilterControl = () => {
   const condition: boolean =
     effectState.blendCG.active ||
     effectState.filterEffect.targetCard ||
-    effectState.filterEffect.targetStand ||
+    effectState.filterEffect.targetCharacter ||
     effectState.filterEffect.targetVideo;
 
   const openCloseFilter = () => {
-    if (condition) {
-      effectStateDispatch({ type: "filter", payload: "allClose" });
-    } else {
-      effectStateDispatch({ type: "filter", payload: "allOpen" });
-    }
+    condition
+      ? effectStateDispatch({ type: "filter", payload: "allClose" })
+      : effectStateDispatch({ type: "filter", payload: "allOpen" });
   };
 
   return (

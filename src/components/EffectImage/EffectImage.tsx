@@ -8,6 +8,20 @@ const EffectImage = () => {
   const { effectState } = useEffectState();
   const { rotateYState } = useRotateY();
 
+  let imgWidth: "auto" | "100%";
+  switch (effectState.imageEF.size) {
+    case "none":
+      imgWidth = "auto";
+      break;
+    case "cover":
+      imgWidth = "100%";
+      break;
+    default:
+      effectState.imageEF.maxHeightFull
+        ? (imgWidth = "auto")
+        : (imgWidth = "100%");
+  }
+
   return (
     <img
       className={`${styles["effect-img"]}
@@ -16,15 +30,20 @@ const EffectImage = () => {
       ${effectState.imageEF.position === "bottom-left" && styles.bottomLeft}
       ${effectState.imageEF.position === "bottom-right" && styles.bottomRight}
       `}
-      src={`/effect-image/${mediaState.folder.effectFolder[1]}/${mediaState.file.effectFile[1]}`}
+      src={`/effect/${mediaState.folder.effect[1]}/${mediaState.file.effectFile[1]}`}
       style={{
         mixBlendMode: effectState.imageEF.activeBlend
           ? effectState.imageEF.blendKind
           : undefined,
         objectFit: effectState.imageEF.size,
         height: effectState.imageEF.size === "cover" ? "100%" : "auto",
-        width: effectState.imageEF.size === "none" ? "auto" : "100%",
-        maxHeight: effectState.imageEF.size === "contain" ? "120%" : undefined,
+        width: imgWidth,
+        maxHeight:
+          effectState.imageEF.size === "contain"
+            ? effectState.imageEF.maxHeightFull
+              ? "100%"
+              : "120%"
+            : undefined,
         transform: rotateYState.effectRotateY ? "rotateY(180deg)" : undefined,
       }}
     />

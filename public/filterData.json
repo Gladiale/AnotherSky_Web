@@ -101,12 +101,22 @@
   },
   {
     "opacity": 100,
-    "brightness": 86,
-    "contrast": 122,
-    "grayscale": 0,
-    "hueRotate": 173,
+    "brightness": 87,
+    "contrast": 104,
+    "grayscale": 49,
+    "hueRotate": 258,
     "invert": 100,
     "saturate": 600,
     "sepia": 34
+  },
+  {
+    "opacity": 100,
+    "brightness": 87,
+    "contrast": 104,
+    "grayscale": 21,
+    "hueRotate": 331,
+    "invert": 100,
+    "saturate": 600,
+    "sepia": 25
   }
 ]

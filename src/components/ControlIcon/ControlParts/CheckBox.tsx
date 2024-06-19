@@ -4,10 +4,11 @@ type PropsType = {
   messageList: string[];
   checkedList: boolean[];
   changeFuncList: (() => void)[];
+  checkBoxSize: "small" | "middle" | "big";
 };
 
 const CheckBox = (props: PropsType) => {
-  const { messageList, checkedList, changeFuncList } = props;
+  const { messageList, checkedList, changeFuncList, checkBoxSize } = props;
 
   return (
     <div className={styles["check-box"]}>
@@ -15,6 +16,7 @@ const CheckBox = (props: PropsType) => {
         <label key={index}>
           <input
             type="checkbox"
+            className={styles[checkBoxSize]}
             checked={checkedList[index]}
             onChange={changeFuncList[index]}
           />

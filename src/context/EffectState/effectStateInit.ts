@@ -32,11 +32,12 @@ type EffectStateType = {
     size: "contain" | "none" | "cover";
     position: (typeof imgPositionList)[number];
     blendKind: (typeof blendKindList)[number];
+    maxHeightFull: boolean;
   };
   mirrorEffect: boolean;
   filterEffect: {
     targetCard: boolean;
-    targetStand: boolean;
+    targetCharacter: boolean;
     targetVideo: boolean;
     dropShadow: boolean;
   };
@@ -57,11 +58,12 @@ const effectSateInit: EffectStateType = {
     size: "contain",
     position: "center",
     blendKind: "soft-light",
+    maxHeightFull: false,
   },
   mirrorEffect: false,
   filterEffect: {
     targetCard: false,
-    targetStand: false,
+    targetCharacter: false,
     targetVideo: false,
     dropShadow: false,
   },
