@@ -1,1 +1,1 @@
-export const VideoDataObj = {"folder-01":["001.mkv","002.mp4","003.mp4","あたしの裸よ.mp4","明日のよいち_ED映像.mp4"]}
+export const VideoDataObj = {"アニメ":["001.mkv","002.mp4","003.mp4","あたしの裸よ.mp4","明日のよいち_ED映像.mp4"],"魔法陣":["アリサ_magic_circle.mp4","キャロル_magic_circle.mp4","メルクリス_magic_circle.mp4","ユリス_magic_circle.mp4","早紗_magic_circle.mp4"]}
