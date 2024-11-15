@@ -10,11 +10,16 @@
   mix-blend-mode: exclusion;
   transition: 0.5s;
   opacity: 0;
-  z-index: -10;
 }
 
 .information.Info-hovered {
   opacity: 1;
   z-index: 20;
   filter: drop-shadow(0 0 3px #ff63ff) drop-shadow(0 0 15px #a20072);
+}
+
+@media (max-width: 768px) {
+  .information {
+    font-size: 1rem;
+  }
 }

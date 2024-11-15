@@ -6,6 +6,7 @@ import {
   type ImageListSubType,
   useImageList,
 } from "../../context/ImageListState";
+import IconDefault from "../Common/IconDefault";
 
 const ShowListImage = () => {
   const { listState, setListState, listSubState, setListSubState } = useImageList();
@@ -34,11 +35,11 @@ const ShowListImage = () => {
 
   return (
     <div className={styles["showList-container"]}>
-      <GiGooeyImpact className={styles.icon} onClick={changeScene} />
+      <IconDefault children={<GiGooeyImpact />} onClick={changeScene} />
       <div className={styles["target-box"]}>
         <div className={styles.otherAction}>
           <label>
-            <span>高度Auto</span>
+            <span>高さAuto</span>
             <input
               type="checkbox"
               checked={listSubState.heightAuto}
