@@ -1,28 +1,28 @@
 import styles from "./Video.module.css";
 import { useState } from "react";
-import { useEffectState } from "../../context/EffectState/EffectStateContext";
+import { useEffectState } from "../../context/EffectStateContext/EffectStateContext";
 import { useFilter } from "../../context/FilterContext";
-import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
+import { useLoading } from "../../hooks/useLoading";
+import { useUrlConfig } from "../../hooks/useUrlConfig";
 import { useScene } from "../../context/SceneContext";
-import { useScreenMode } from "../../context/ScreenContext";
 import { useRotateY } from "../../context/RotateYContext";
+import { useAppOption } from "../../context/AppOptionContext";
 import { useMediaSizeData } from "../../hooks/useMediaSizeData";
 import EffectImage from "../EffectImage/EffectImage";
 import VideoControl from "./VideoControl/VideoControl";
-import useLoading from "../../hooks/useLoading";
 import Loading from "../Loading/Loading";
 
 const Video = () => {
   const { setScene } = useScene();
-  const { mediaState } = useMediaInfo();
+  const { urlConfig } = useUrlConfig();
   const { rotateYState } = useRotateY();
-  const { screenMode } = useScreenMode();
   const { effectState } = useEffectState();
   const { filterState } = useFilter();
+  const { optionData } = useAppOption();
   const { mediaSizeData } = useMediaSizeData();
 
   const { loadStatus, showTarget, showError } = useLoading({
-    trigger: [mediaState.folder.video[1], mediaState.file.videoFile[1]],
+    trigger: [urlConfig.video],
     target: "video",
   });
 
@@ -39,7 +39,7 @@ const Video = () => {
   const resetScene = (e: any) => {
     e.preventDefault();
     setRotateVideoDeg(0);
-    setScene("card-stand");
+    setScene("card");
   };
 
   return (
@@ -51,10 +51,9 @@ const Video = () => {
       onMouseLeave={() => setVideoHovered(false)}
     >
       <div
-        className={`${styles["video-box"]} 
-        ${effectState.shakeEffect.active && styles.shake}
-        ${screenMode === "cardMode" && styles.cardMode}
-        ${screenMode === "cgMode" && styles.cgMode}`}
+        className={`${styles["video-box"]}
+        ${optionData.videoShadow && styles.shadow}
+        ${effectState.shakeEffect.active && styles.shake}`}
         style={{
           transform: `rotate(${rotateVideoDeg}deg) 
                       rotateY(${rotateYState.videoRotateY ? 180 : 0}deg)`,
@@ -78,7 +77,7 @@ const Video = () => {
           }}
           onLoadedData={showTarget}
           onStalled={showError}
-          src={`/video/${mediaState.folder.video[1]}/${mediaState.file.videoFile[1]}`}
+          src={urlConfig.video}
         ></video>
 
         <Loading loadStatus={loadStatus} />

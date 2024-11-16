@@ -1,5 +1,7 @@
-import styles from "./CardImageCG.module.css";
+import styles from "./CGbox.module.css";
 import { useLayoutEffect } from "react";
+import { useUrlConfig } from "../../hooks/useUrlConfig";
+import { useLoading } from "../../hooks/useLoading";
 import { useMediaSizeData } from "../../hooks/useMediaSizeData";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
 import {
@@ -7,7 +9,6 @@ import {
   useCardCharacterState,
 } from "../../context/CardCharacterContext";
 import Loading from "../Loading/Loading";
-import useLoading from "../../hooks/useLoading";
 
 type PropsType = {
   className: "cg-img" | "texture-img";
@@ -17,11 +18,10 @@ const CG = ({ className }: PropsType) => {
   const { mediaSizeData } = useMediaSizeData();
   const { mediaState } = useMediaInfo();
   const { isCharacter } = useCardCharacterState();
+  const { urlConfig } = useUrlConfig();
   const { characterInfo, characterInfoDispatch } = useCardCharacterInfo();
 
-  const imgUrl = isCharacter
-    ? `/character/${characterInfo.folder[1]}/${characterInfo.file[1]}`
-    : `/cg/${mediaState.folder.cg[1]}/${mediaState.file.cgFile[1]}`;
+  const imgUrl = isCharacter ? urlConfig.cardCharacter : urlConfig.cg;
 
   const { loadStatus, showTarget, showError } = useLoading({
     trigger: [isCharacter, imgUrl],
@@ -50,7 +50,10 @@ const CG = ({ className }: PropsType) => {
         onLoad={showTarget}
         onStalled={showError}
       />
-      <Loading loadStatus={loadStatus} />
+      <Loading
+        loadStatus={loadStatus}
+        loadStyle={{ position: className === "cg-img" ? "relative" : "absolute" }}
+      />
     </>
   );
 };

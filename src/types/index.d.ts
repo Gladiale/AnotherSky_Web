@@ -1,12 +1,21 @@
-// type GetListType = (folderName: string) => string[];
-// export { type GetListType };
-
-type AppOptionDataType = {
-  cgShadow: boolean;
-  characterShadow: boolean;
-  iconShadow: boolean;
-  cgSwing: boolean;
-  loadingAnime: boolean;
+type FilterDataType = {
+  opacity: number;
+  brightness: number;
+  contrast: number;
+  grayscale: number;
+  hueRotate: number;
+  invert: number;
+  saturate: number;
+  sepia: number;
 };
 
-export type { AppOptionDataType };
+type AppOptionDataType = {
+  loadingAnime: boolean;
+  cgSwing: boolean;
+  cgShadow: boolean;
+  videoShadow: boolean;
+  characterShadow: boolean;
+  iconShadow: boolean;
+};
+
+export type { FilterDataType, AppOptionDataType };

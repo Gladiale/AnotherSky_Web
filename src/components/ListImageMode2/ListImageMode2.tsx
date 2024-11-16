@@ -6,7 +6,7 @@ import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
 import { useScene } from "../../context/SceneContext";
 import { createRandomImg } from "../../helper/createRandomImg";
 import { useScreenMode } from "../../context/ScreenContext";
-import { useEffectState } from "../../context/EffectState/EffectStateContext";
+import { useEffectState } from "../../context/EffectStateContext/EffectStateContext";
 import { useRotateY } from "../../context/RotateYContext";
 import { SpecificPayloadType } from "../../context/MediaInfoContext/MediaInfoFunc/dispatch/toMediaSpecificFile";
 import {
@@ -34,16 +34,13 @@ const ListImageMode2 = () => {
   });
 
   // 左クリック
-  const changeCardCg = (
-    target: SpecificPayloadType["target"],
-    index: number
-  ) => {
+  const changeCardCg = (target: SpecificPayloadType["target"], index: number) => {
     mediaDispatch({
       type: "specific",
       payload: { target: target, fileInfo: imageInfoList[index] },
     });
     if (target === "cg") {
-      setScene("card-cg");
+      setScene("cg");
       if (isCharacter) {
         setIsCharacter(false);
         characterInfoDispatch({ type: "deleteData" });
@@ -54,7 +51,7 @@ const ListImageMode2 = () => {
   // 右クリック
   const resetCardScene = (e: any) => {
     e.preventDefault();
-    setScene("card-cg");
+    setScene("cg");
   };
 
   let target: SpecificPayloadType["target"];

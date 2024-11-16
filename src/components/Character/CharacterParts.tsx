@@ -1,24 +1,27 @@
-import styles from "./ImageParts.module.css";
+import styles from "./CharacterParts.module.css";
 import { useState } from "react";
+import { useLoading } from "../../hooks/useLoading";
+import { useUrlConfig } from "../../hooks/useUrlConfig";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
-import { useEffectState } from "../../context/EffectState/EffectStateContext";
+import { useEffectState } from "../../context/EffectStateContext/EffectStateContext";
 import { getRandomFile } from "../../helper/dataObjControl";
 import { VoiceDataObj } from "../../data/VoiceDataObj";
-import useLoading from "../../hooks/useLoading";
 import Loading from "../Loading/Loading";
 
 type PropsType = {
   handleAspect: (e: React.SyntheticEvent<HTMLImageElement>) => void;
 };
 
-const ImageParts = ({ handleAspect }: PropsType) => {
+const CharacterParts = ({ handleAspect }: PropsType) => {
   const [vocal, setVocal] = useState<string>("");
   const [hasVocal, setHasVocal] = useState<boolean>(false);
-  const { mediaState, mediaDispatch } = useMediaInfo();
+
+  const { urlConfig } = useUrlConfig();
   const { effectState } = useEffectState();
+  const { mediaDispatch } = useMediaInfo();
 
   const { loadStatus, showTarget, showError } = useLoading({
-    trigger: [mediaState.folder.character[1], mediaState.file.characterFile[1]],
+    trigger: [urlConfig.character],
     target: "character",
   });
 
@@ -40,9 +43,9 @@ const ImageParts = ({ handleAspect }: PropsType) => {
 
   const changeStandImage = (e: React.WheelEvent) => {
     if (e.deltaY > 0) {
-      mediaDispatch({ type: "next", payload: "card-stand" });
+      mediaDispatch({ type: "next", payload: "card" });
     } else {
-      mediaDispatch({ type: "prev", payload: "card-stand" });
+      mediaDispatch({ type: "prev", payload: "card" });
     }
   };
 
@@ -55,7 +58,7 @@ const ImageParts = ({ handleAspect }: PropsType) => {
     <div className={styles["stand-box"]} onClick={handleVocal} onWheel={changeStandImage}>
       <img
         className={styles["stand-img"]}
-        src={`/character/${mediaState.folder.character[1]}/${mediaState.file.characterFile[1]}`}
+        src={urlConfig.character}
         style={{ display: loadStatus === "success" ? undefined : "none" }}
         onLoad={handleLoaded}
         onStalled={showError}
@@ -66,7 +69,7 @@ const ImageParts = ({ handleAspect }: PropsType) => {
       {effectState.blendCG.active && effectState.filterEffect.targetCharacter && (
         <img
           className={`${styles["stand-img"]} ${styles.texture}`}
-          src={`/character/${mediaState.folder.character[1]}/${mediaState.file.characterFile[1]}`}
+          src={urlConfig.character}
           style={{ display: loadStatus === "success" ? undefined : "none" }}
         />
       )}
@@ -82,4 +85,4 @@ const ImageParts = ({ handleAspect }: PropsType) => {
   );
 };
 
-export default ImageParts;
+export default CharacterParts;
