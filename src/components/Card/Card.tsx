@@ -12,27 +12,21 @@ import {
 } from "../../context/MediaInfoContext/MediaInfoContext";
 import { useEffectState } from "../../context/EffectStateContext/EffectStateContext";
 import { useRotateY } from "../../context/RotateYContext";
-import { useImageControl } from "../../hooks/useImageControl";
 import { useAppOption } from "../../context/AppOptionContext";
 import { useFilterData } from "../../hooks/useFilterData";
+import { useMediaState } from "../../context/MediaStateContext";
+import { useMediaControl } from "../../hooks/useMediaControl";
 
 const Card = () => {
   // カスタムフック、インスタンス化に相当
-  const {
-    isEditMode,
-    imageDeg,
-    imageScale,
-    imagePosition,
-    triggerEditMode,
-    changeImageDeg,
-    changeImageScale,
-    moveImageReverse,
-  } = useImageControl({ initialScale: 1.5, isEffect: false });
+  const { triggerEditMode, changeMediaDeg, changeMediaScale, moveMediaReverse } =
+    useMediaControl({ initialScale: 1.5, target: "image" });
 
+  const { mediaState } = useMediaState();
   const { optionData } = useAppOption();
   const { setIsHovered } = useHover();
   const { scene, setScene } = useScene();
-  const { mediaDispatch } = useMediaInfo();
+  const { mediaInfoDispatch } = useMediaInfo();
   const { anotherActive } = useAnotherCharacter();
   const { screenMode } = useScreenMode();
   const { rotateYState } = useRotateY();
@@ -48,7 +42,7 @@ const Card = () => {
       return setScene("cg");
     }
     if (scene === "cg" || scene === "anotherCharacter") {
-      return changeImageDeg(e);
+      return changeMediaDeg(e);
     }
   };
 
@@ -60,62 +54,56 @@ const Card = () => {
     }
     if (scene === "cg" || scene === "anotherCharacter") {
       setScene("card");
-      if (isEditMode || imageDeg !== 0) {
-        triggerEditMode(e, true);
-      }
+      triggerEditMode(e, true);
       return;
     }
   };
 
   const changeImage = (e: React.WheelEvent) => {
     e.deltaY > 0
-      ? mediaDispatch({ type: "next", payload: scene })
-      : mediaDispatch({ type: "prev", payload: scene });
+      ? mediaInfoDispatch({ type: "next", payload: scene })
+      : mediaInfoDispatch({ type: "prev", payload: scene });
   };
 
   return (
-    <div className={`${styles["card-container-3d"]}`}>
-      <div
-        className={`${styles.card}
+    <div
+      className={`${styles.card}
         ${screenMode === "cgMode" && styles.cgMode}
         ${scene === "card" && styles.sceneCard}
         ${(scene === "cg" || scene === "anotherCharacter") && styles.sceneCG}
         ${optionData.loadingAnime && styles.hasAnime}
         ${optionData.cgShadow && styles.shadow}`}
-        onMouseEnter={() => setIsHovered({ cardHover: true, iconHover: false })}
-        onMouseLeave={() => setIsHovered({ cardHover: false, iconHover: false })}
-        onClick={changeScene}
-        onContextMenu={resetScene}
-        onWheel={changeImage}
-        style={{
-          transform: `rotate(${imageDeg}deg)
+      onMouseEnter={() => setIsHovered({ cardHover: true, iconHover: false })}
+      onMouseLeave={() => setIsHovered({ cardHover: false, iconHover: false })}
+      onClick={changeScene}
+      onContextMenu={resetScene}
+      onWheel={changeImage}
+      style={{
+        transform: `rotate(${mediaState["image"].deg}deg)
             rotateY(${rotateYState.cardRotateY ? 180 : 0}deg)`,
-          overflow:
-            (isEditMode && effectState.mirrorEffect) || scene === "card"
-              ? "hidden"
-              : undefined,
-          width: isEditMode && effectState.mirrorEffect ? "100%" : undefined,
-          imageRendering: effectState.pixelEffect ? "pixelated" : undefined,
-          filter: filterData,
-          boxShadow:
-            scene === "card" && optionData.cgShadow && effectState.filterEffect.targetCard
-              ? "none"
-              : undefined,
+        overflow:
+          (mediaState["image"].isEditMode && effectState.mirrorEffect) || scene === "card"
+            ? "hidden"
+            : undefined,
+        width:
+          mediaState["image"].isEditMode && effectState.mirrorEffect ? "100%" : undefined,
+        imageRendering: effectState.pixelEffect ? "pixelated" : undefined,
+        filter: filterData,
+        boxShadow:
+          scene === "card" && optionData.cgShadow && effectState.filterEffect.targetCard
+            ? "none"
+            : undefined,
+      }}
+    >
+      <CardImage
+        props={{
+          triggerEditMode,
+          changeMediaScale,
+          moveMediaReverse,
         }}
-      >
-        <CardImage
-          props={{
-            isEditMode,
-            imageScale,
-            imagePosition,
-            triggerEditMode,
-            changeImageScale,
-            moveImageReverse,
-          }}
-        />
+      />
 
-        <CardPolygon scene={scene} />
-      </div>
+      <CardPolygon scene={scene} />
     </div>
   );
 };

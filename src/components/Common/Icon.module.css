@@ -27,13 +27,16 @@
   scale: 0.8;
 }
 
-.iconDefault.toggle {
+.iconDefault.anime-color {
   animation: change-color 1s linear infinite alternate;
 }
 
-.iconDefault.toggleVoice {
-  animation: open-voice 1s linear infinite alternate;
-  /* animation: animate-rotate 1.5s linear infinite; */
+.iconDefault.anime-color-2nd {
+  animation: change-color-2nd 1s linear infinite alternate;
+}
+
+.iconDefault.anime-scale {
+  animation: change-scale 1s linear infinite alternate;
 }
 
 .iconSmall {
@@ -61,6 +64,10 @@
   .iconDefault {
     font-size: 1.9rem;
   }
+
+  .iconDefault.hidden {
+    display: none;
+  }
 }
 
 @keyframes flashAni {
@@ -86,7 +93,16 @@
   }
 }
 
-@keyframes open-voice {
+@keyframes change-color-2nd {
+  0% {
+    color: #7d1784;
+  }
+  100% {
+    color: #5aff8c;
+  }
+}
+
+@keyframes change-scale {
   0% {
     color: #ff99fd;
     scale: 0.9;

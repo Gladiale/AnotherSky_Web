@@ -1,25 +1,25 @@
 import { useMediaSize, useScreenMode } from "../context/ScreenContext";
-import { useWindowSize } from "./useWindowSize";
+import { useWindowState } from "./useWindowState";
 
 const useMediaSizeData = () => {
   const { mediaSize } = useMediaSize();
   const { screenMode } = useScreenMode();
-  const [windowWidth] = useWindowSize();
+  const { isMobileSize } = useWindowState();
 
   const mediaSizeData = {
     objectFit: mediaSize === "custom" ? "contain" : mediaSize,
     height:
       mediaSize === "contain"
         ? "100%"
-        : windowWidth <= 768 && mediaSize === "custom"
+        : isMobileSize && mediaSize === "custom"
         ? "100dvw"
         : "auto",
-    width: windowWidth <= 768 && mediaSize === "contain" ? "100dvw" : "auto",
-    maxHeight: mediaSize === "custom" ? "100dvh" : undefined,
+    width: isMobileSize && mediaSize === "contain" ? "100dvw" : "auto",
+    maxHeight: mediaSize === "custom" ? "100%" : undefined,
     maxWidth:
-      mediaSize === "custom" && windowWidth > 768
+      mediaSize === "custom" && !isMobileSize
         ? "65dvw"
-        : mediaSize === "custom" && windowWidth <= 768 && screenMode === "cardMode"
+        : mediaSize === "custom" && isMobileSize && screenMode === "cardMode"
         ? "90dvw"
         : undefined,
   };

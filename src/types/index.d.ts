@@ -18,4 +18,28 @@ type AppOptionDataType = {
   iconShadow: boolean;
 };
 
-export type { FilterDataType, AppOptionDataType };
+type MediaStateType = {
+  image: {
+    deg: number;
+    scale: number;
+    position: { x: number; y: number };
+    // パソコン用
+    isEditMode: boolean;
+  };
+  effect: {
+    deg: number;
+    scale: number;
+    position: { x: number; y: number };
+    isEditMode: boolean;
+  };
+  video: {
+    deg: number;
+    scale: number;
+    position: { x: number; y: number };
+    isEditMode: boolean;
+  };
+  // スマホ用
+  touchMode: "scaleMode" | "positionMode" | "rotateMod" | "closed";
+};
+
+export type { FilterDataType, AppOptionDataType, MediaStateType };

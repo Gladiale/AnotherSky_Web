@@ -1,22 +1,22 @@
 import styles from "./CGbox.module.css";
-import { useEffectState } from "../../context/EffectStateContext/EffectStateContext";
-import { useMediaSize } from "../../context/ScreenContext";
 import { useAppOption } from "../../context/AppOptionContext";
+import { useEffectState } from "../../context/EffectStateContext/EffectStateContext";
+import { useMediaTouchControl } from "../../hooks/useMediaTouchControl";
 import CG from "./CG";
 import EffectImage from "../EffectImage/EffectImage";
 import ControlParts from "./ControlParts";
 
 type PropsType = {
   triggerEditMode: (e: React.MouseEvent<HTMLDivElement>, reset?: boolean) => void;
-  changeImageScale: (e: React.WheelEvent) => void;
-  moveImageReverse: (e: React.MouseEvent<HTMLDivElement>) => void;
+  changeMediaScale: (e: React.WheelEvent) => void;
+  moveMediaReverse: (e: React.MouseEvent<HTMLDivElement>) => void;
 };
 
 const CGbox = ({ data }: { data: PropsType }) => {
-  const { triggerEditMode, changeImageScale, moveImageReverse } = data;
+  const { triggerEditMode, changeMediaScale, moveMediaReverse } = data;
 
+  const { handleTouchStart, handleTouchMove } = useMediaTouchControl({ target: "image" });
   const { effectState } = useEffectState();
-  const { mediaSize } = useMediaSize();
   const { optionData } = useAppOption();
 
   const shakeCondition = {
@@ -36,11 +36,10 @@ const CGbox = ({ data }: { data: PropsType }) => {
       <div
         className={`${styles["blendMode"]} ${optionData.cgSwing && styles.swing}`}
         onMouseDown={triggerEditMode}
-        onMouseMove={moveImageReverse}
-        onWheel={changeImageScale}
-        style={{
-          height: mediaSize === "contain" ? undefined : "fit-content",
-        }}
+        onMouseMove={moveMediaReverse}
+        onWheel={changeMediaScale}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
       >
         <CG className="cg-img" />
         {effectState.blendCG.active && effectState.filterEffect.targetCard && (

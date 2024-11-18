@@ -1,31 +1,39 @@
 import styles from "./EffectImage.module.css";
+import { useState } from "react";
 import { useLoading } from "../../hooks/useLoading";
 import { useUrlConfig } from "../../hooks/useUrlConfig";
 import { useRotateY } from "../../context/RotateYContext";
 import { useEffectState } from "../../context/EffectStateContext/EffectStateContext";
-import { useEffectControl } from "../../context/EffectControlContext";
+import { useMediaControl } from "../../hooks/useMediaControl";
+import { useMediaState } from "../../context/MediaStateContext";
+import { useMediaTouchControl } from "../../hooks/useMediaTouchControl";
 import Loading from "../Loading/Loading";
 
 const EffectImage = () => {
   const { urlConfig } = useUrlConfig();
   const { effectState } = useEffectState();
   const { rotateYState } = useRotateY();
+  const { mediaState } = useMediaState();
 
-  const {
-    isEditMode,
-    imageDeg,
-    imageScale,
-    imagePosition,
-    triggerEditMode,
-    changeImageDeg,
-    changeImageScale,
-    moveImageDirect,
-  } = useEffectControl();
+  const { triggerEditMode, changeMediaDeg, changeMediaScale, moveMediaDirect } =
+    useMediaControl({ initialScale: 1, target: "effect" });
+
+  const { handleTouchStart, handleTouchMove } = useMediaTouchControl({
+    target: "effect",
+  });
 
   const { loadStatus, showTarget, showError } = useLoading({
     trigger: [urlConfig.effect],
     target: "effect",
   });
+
+  const [isTouched, setIsTouched] = useState<boolean>(false);
+  const touchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    handleTouchStart(e);
+    if (mediaState.touchMode !== "closed") {
+      setIsTouched(true);
+    }
+  };
 
   let imgWidth: "auto" | "100%",
     imgHeight: "auto" | "100%",
@@ -57,29 +65,33 @@ const EffectImage = () => {
       style={{
         width: imgWidth,
         height: divHeight,
-        scale: String(imageScale),
-        transform: `translate(${imagePosition.x}px, ${imagePosition.y}px)`,
+        scale: String(mediaState["effect"].scale),
+        transform: `translate(${mediaState["effect"].position.x}px, ${mediaState["effect"].position.y}px)`,
         mixBlendMode: effectState.imageEF.activeBlend
           ? effectState.imageEF.blendKind
           : undefined,
       }}
     >
       <img
-        className={`${styles["effect-img"]} ${isEditMode ? styles.isEditing : ""}`}
+        className={`${styles["effect-img"]}
+        ${(mediaState["effect"].isEditMode || isTouched) && styles.isEditing}`}
         src={urlConfig.effect}
         style={{
           objectFit: effectState.imageEF.size,
           width: imgWidth,
           height: imgHeight,
           transform: rotateYState.effectRotateY
-            ? `rotateY(180deg) rotate(${imageDeg}deg)`
-            : `rotate(${imageDeg}deg)`,
+            ? `rotateY(180deg) rotate(${mediaState["effect"].deg}deg)`
+            : `rotate(${mediaState["effect"].deg}deg)`,
           display: loadStatus === "success" ? undefined : "none",
         }}
-        onClick={changeImageDeg}
+        onClick={changeMediaDeg}
         onMouseDown={triggerEditMode}
-        onMouseMove={moveImageDirect}
-        onWheel={changeImageScale}
+        onMouseMove={moveMediaDirect}
+        onWheel={changeMediaScale}
+        onTouchStart={touchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={() => setIsTouched(false)}
         onLoad={showTarget}
         onStalled={showError}
       />

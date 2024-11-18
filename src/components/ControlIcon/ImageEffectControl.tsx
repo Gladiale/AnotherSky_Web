@@ -3,7 +3,7 @@ import { GiPrism } from "react-icons/gi";
 import { useEffectState } from "../../context/EffectStateContext/EffectStateContext";
 import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
 import { EffectStateType } from "../../context/EffectStateContext/effectStateInit";
-import { useEffectControl } from "../../context/EffectControlContext";
+import { useMediaControl } from "../../hooks/useMediaControl";
 import PartsBox from "../Common/PartsBox";
 import EffectBox from "../Common/EffectBox";
 import CheckBox from "../Common/CheckBox";
@@ -12,8 +12,8 @@ import IconDefault from "../Common/IconDefault";
 
 const ImageEffectControl = () => {
   const { effectState, effectStateDispatch } = useEffectState();
-  const { mediaState, mediaDispatch } = useMediaInfo();
-  const { triggerEditMode } = useEffectControl();
+  const { mediaInfo, mediaInfoDispatch } = useMediaInfo();
+  const { triggerEditMode } = useMediaControl({ initialScale: 1, target: "effect" });
 
   const condition: boolean =
     effectState.imageEF.activeImage ||
@@ -83,7 +83,7 @@ const ImageEffectControl = () => {
           <PartsBox
             name2nd="imageEF"
             part2nd={true}
-            message={mediaState.folder.effect[1]}
+            message={mediaInfo.folder.effect[1]}
             active={effectState.imageEF.activeImage}
             activeFunc={() =>
               effectStateDispatch({
@@ -91,9 +91,9 @@ const ImageEffectControl = () => {
                 payload: "imageActive",
               })
             }
-            prevValFunc={() => mediaDispatch({ type: "effectPrev" })}
-            nextValFunc={() => mediaDispatch({ type: "effectNext" })}
-            folderChange={() => mediaDispatch({ type: "effectFolderNext" })}
+            prevValFunc={() => mediaInfoDispatch({ type: "effectPrev" })}
+            nextValFunc={() => mediaInfoDispatch({ type: "effectNext" })}
+            folderChange={() => mediaInfoDispatch({ type: "effectFolderNext" })}
           />
 
           <div className={styles["radio-content"]}>
@@ -160,7 +160,7 @@ const ImageEffectControl = () => {
         </div>
       )}
 
-      <IconDefault className={condition && "toggle"} onClick={openCloseImgEF}>
+      <IconDefault className={condition && "anime-color"} onClick={openCloseImgEF}>
         <GiPrism />
       </IconDefault>
     </div>
