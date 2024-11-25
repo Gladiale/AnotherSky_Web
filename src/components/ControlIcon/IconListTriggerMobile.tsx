@@ -1,4 +1,5 @@
 import { GiSunbeams } from "react-icons/gi";
+import { useFullScreen } from "../../hooks/useFullScreen";
 import { useMediaState } from "../../context/MediaStateContext";
 import IconDefault from "../Common/IconDefault";
 
@@ -7,8 +8,9 @@ type PropsType = {
   handleListTrigger: () => void;
 };
 
-const MobileIconListTrigger = ({ handleListTrigger, boxKey }: PropsType) => {
+const IconListTriggerMobile = ({ handleListTrigger, boxKey }: PropsType) => {
   const { mediaState, setMediaState } = useMediaState();
+  const { changeFullScreen } = useFullScreen();
 
   const handleClick = () => {
     handleListTrigger();
@@ -18,14 +20,20 @@ const MobileIconListTrigger = ({ handleListTrigger, boxKey }: PropsType) => {
     });
   };
 
+  const handleContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    changeFullScreen();
+  };
+
   return (
     <IconDefault
       onClick={handleClick}
-      className={mediaState.touchMode === "rotateMod" && "anime-color-2nd"}
+      onContextMenu={handleContextMenu}
+      anime={mediaState.touchMode === "rotateMod" && "anime-color-2nd"}
     >
       <GiSunbeams />
     </IconDefault>
   );
 };
 
-export default MobileIconListTrigger;
+export default IconListTriggerMobile;
