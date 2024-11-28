@@ -1,6 +1,6 @@
 .stand-container {
   height: 100%;
-  max-width: 25dvw;
+  max-width: 35dvw;
   transition: 0.5s;
   /* z-indexを効くために */
   position: relative;
