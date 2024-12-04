@@ -1,13 +1,13 @@
-:root {
+/* css変数 ローカル変数 */
+.card {
   --clr1: #ff1d1d;
   --clr2: #ff3be2;
 }
 
 .card {
   height: 100%;
-  aspect-ratio: 1 / 1.42;
+  aspect-ratio: var(--aspect-ratio);
   position: relative;
-  z-index: 10;
 
   display: flex;
   justify-content: center;
@@ -16,43 +16,30 @@
   border: 5px solid #000000dc;
   box-shadow: 0 0 30px var(--clr1);
   user-select: none;
-  /* imageの3D化 */
-  transform-style: preserve-3d;
-  perspective: 1000px;
-
-  transition: all 0.5s, border 0.1s;
-}
-
-.card.hasAnime {
-  transition: all 0.5s, border 0.1s, background-color 0s, box-shadow 0s;
-}
-
-.card.sceneCard {
-  transition: all 0.5s, border 0.1s;
-}
-
-@media (max-width: 768px) {
-  .card.cgMode {
-    width: 100dvw;
-  }
+  overflow: hidden;
+  transition: box-shadow 0.5s, background-color 0.5s, border 0.15s;
 }
 
 .card:hover {
   background: var(--clr2);
-  box-shadow: 0 0 30px var(--clr2), 0 0 35px var(--clr2);
+  /* border: 0px solid #000000dc; */
+  box-shadow: 0 0 30px var(--clr2);
 }
 
-.card.sceneCG {
-  background: none;
-  box-shadow: none;
-  border: 0px solid transparent;
-  width: auto;
+.card .stand-img {
+  aspect-ratio: 1 / 1;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transition: height 0.5s, background-image 0.5s;
 }
 
-.card.sceneCG.shadow {
-  filter: var(--drop-shadow);
-}
+@media (max-width: 768px) {
+  .card {
+    border: 4px solid #000000dc;
+  }
 
-.card.sceneCG.shadow:hover {
-  filter: var(--drop-shadow-hover);
+  .card.cgMode {
+    max-width: 100dvw;
+  }
 }

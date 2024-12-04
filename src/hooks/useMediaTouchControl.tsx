@@ -12,29 +12,39 @@ const useMediaTouchControl = ({ target }: ParamsType) => {
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    // 最初のタッチポイントを取得
-    const touch = e.touches[0];
+    // ターゲットエレメントの中央座標を取得
+    const targetData = e.currentTarget.getBoundingClientRect();
     setStartPoint({
-      x: touch.clientX,
-      y: touch.clientY,
+      x:
+        targetData.x +
+        targetData.width / 2 -
+        mediaState[target].position.x * mediaState[target].scale,
+      y:
+        targetData.y +
+        targetData.height / 2 -
+        mediaState[target].position.y * mediaState[target].scale,
     });
 
     if (target === "effect" && mediaState.touchMode === "rotateMod") {
-      setMediaState((prev) => ({
-        ...prev,
+      const stateDeg = mediaState[target]["deg"];
+      const newDeg = stateDeg <= -1350 || stateDeg >= 1350 ? 0 : stateDeg - 90;
+
+      setMediaState({
+        ...mediaState,
         [target]: {
-          ...prev[target],
-          deg: prev[target].deg <= -1350 ? 0 : prev[target].deg - 90,
+          ...mediaState[target],
+          deg: newDeg,
         },
-      }));
+      });
     }
   };
 
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
     e.stopPropagation();
     const touch = e.touches[0];
-    const transitionX = touch.clientX - startPoint.x;
-    const transitionY = touch.clientY - startPoint.y;
+    const mediaScale = mediaState[target].scale;
+    const transitionX = (touch.clientX - startPoint.x) / mediaScale;
+    const transitionY = (touch.clientY - startPoint.y) / mediaScale;
 
     if (mediaState.touchMode === "positionMode") {
       setMediaState({

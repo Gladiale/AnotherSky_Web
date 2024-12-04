@@ -93,17 +93,20 @@ const ImageEffectControl = () => {
             }
             prevValFunc={() => mediaInfoDispatch({ type: "effectPrev" })}
             nextValFunc={() => mediaInfoDispatch({ type: "effectNext" })}
-            folderChange={() => mediaInfoDispatch({ type: "effectFolderNext" })}
+            folderNext={() => mediaInfoDispatch({ type: "effectFolderNext" })}
+            folderPrev={() => mediaInfoDispatch({ type: "effectFolderPrev" })}
           />
 
           <div className={styles["radio-content"]}>
             {radioSizeChecked.contain && (
               <div className={styles["control-box"]}>
                 <CheckBox
+                  kind="1st"
+                  checkBoxSize="small"
+                  gap={{ outerGap: "0.4rem", innerGap: "0.2rem" }}
                   messageList={["高さ100%"]}
                   checkedList={containState.checkedList}
                   changeFuncList={[() => effectStateDispatch({ type: "imgEfMaxHeight" })]}
-                  checkBoxSize="small"
                 />
                 <RadioBox
                   radioName="position"
