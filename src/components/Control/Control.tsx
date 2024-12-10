@@ -15,18 +15,19 @@ import MirrorEffectControl from "../ControlIcon/MirrorEffectControl";
 import AutoNext from "../ControlIcon/AutoNext";
 import ImageEffectControl from "../ControlIcon/ImageEffectControl";
 import RandomControl from "../ControlIcon/RandomControl";
+import ShowDirectory from "../ControlIcon/ShowDirectory";
 import ShowListImage from "../ControlIcon/ShowListImage";
-import Unknown from "../ControlIcon/Unknown";
 import RotateYControl from "../ControlIcon/RotateYControl";
 import MobilePositionControl from "../ControlIcon/MobilePositionControl";
 import MobileScaleControl from "../ControlIcon/MobileScaleControl";
 import IconStorage from "../ControlIcon/IconStorage";
 import IconListTriggerMobile from "../ControlIcon/IconListTriggerMobile";
 import IconListTriggerDesk from "../ControlIcon/IconListTriggerDesk";
-import ShowDirectory from "../ControlIcon/ShowDirectory";
+import CustomBox from "./CustomBox";
+import Unknown from "../ControlIcon/Unknown";
 
 const Control = () => {
-  const { setIsHovered } = useHover();
+  const { hoverDispatch } = useHover();
   const { appOption } = useAppOption();
   const { isMobileSize } = useWindowState();
   const [deskIconState, setDeskIconState] = useState({ deskBox: true, desk1st: true });
@@ -54,10 +55,10 @@ const Control = () => {
     <>
       {/* desk icon */}
       <div
-        className={`${styles["desk-box"]} ${!deskIconState.deskBox && styles.hidden}
-        ${appOption.dropShadow.icon && styles.shadow}`}
-        onMouseEnter={() => setIsHovered({ cardHover: true, iconHover: true })}
-        onMouseLeave={() => setIsHovered({ cardHover: false, iconHover: false })}
+        className={`${styles["desk-box"]} ${appOption.dropShadow.icon && styles.shadow}
+        ${!deskIconState.deskBox && styles.hidden}`}
+        onMouseEnter={() => hoverDispatch({ type: "icon", payload: "enter" })}
+        onMouseLeave={() => hoverDispatch({ type: "icon", payload: "leave" })}
       >
         <div
           className={`${styles["desk-1st"]} ${!deskIconState.desk1st && styles.hidden}`}
@@ -88,15 +89,35 @@ const Control = () => {
           <FilterControl />
           <ImageEffectControl />
         </div>
+
+        {/* deskのCustomBox */}
+        <CustomBox
+          className={"desk"}
+          style={deskIconState.desk1st ? {} : { opacity: 0, scale: 0 }}
+        />
       </div>
+
+      {/* mobileのCustomBox */}
+      <CustomBox
+        className={"mobile"}
+        style={
+          deskIconState.deskBox
+            ? {
+                filter: appOption.dropShadow.icon
+                  ? "var(--drop-shadow-hover)"
+                  : undefined,
+              }
+            : { opacity: 0, scale: 0 }
+        }
+      />
 
       {/* mobile icon */}
       <div
-        className={`${styles["mobile-box-1st"]} 
+        className={`${styles["mobile-box-1st"]}
         ${appOption.dropShadow.icon && styles.shadow}
         ${isMobile1stHidden && styles.hidden}`}
-        onMouseEnter={() => setIsHovered({ cardHover: true, iconHover: true })}
-        onMouseLeave={() => setIsHovered({ cardHover: false, iconHover: false })}
+        onMouseEnter={() => hoverDispatch({ type: "icon", payload: "enter" })}
+        onMouseLeave={() => hoverDispatch({ type: "icon", payload: "leave" })}
       >
         <ToFirst active="onlyMobile" />
         <ToPrev active="onlyMobile" />
@@ -109,8 +130,8 @@ const Control = () => {
         className={`${styles["mobile-box-2nd"]}
         ${appOption.dropShadow.icon && styles.shadow}
         ${!isMobile1stHidden && styles.hidden}`}
-        onMouseEnter={() => setIsHovered({ cardHover: true, iconHover: true })}
-        onMouseLeave={() => setIsHovered({ cardHover: false, iconHover: false })}
+        onMouseEnter={() => hoverDispatch({ type: "icon", payload: "enter" })}
+        onMouseLeave={() => hoverDispatch({ type: "icon", payload: "leave" })}
       >
         <MobilePositionControl />
         <IconListTriggerMobile boxKey="2nd" handleListTrigger={handleIconMobile} />
@@ -121,8 +142,8 @@ const Control = () => {
       <div
         className={`${styles["storage-box"]} 
         ${appOption.dropShadow.icon && styles.shadow}`}
-        onMouseEnter={() => setIsHovered({ cardHover: true, iconHover: true })}
-        onMouseLeave={() => setIsHovered({ cardHover: false, iconHover: false })}
+        onMouseEnter={() => hoverDispatch({ type: "icon", payload: "enter" })}
+        onMouseLeave={() => hoverDispatch({ type: "icon", payload: "leave" })}
       >
         {isMobileSize ? (
           <IconStorage handleIconStorage={handleIconStorage} />

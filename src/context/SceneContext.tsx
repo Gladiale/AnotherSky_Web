@@ -1,12 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-export type SceneType =
-  | "card"
-  | "cg"
-  | "anotherCharacter"
-  | "video"
-  | "listImg"
-  | "directoryMode";
+export type SceneType = "card" | "cg" | "video" | "listImg" | "directoryMode";
 
 export type DirectoryTargetType = "cg" | "character" | "video";
 

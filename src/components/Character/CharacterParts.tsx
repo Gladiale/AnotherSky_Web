@@ -2,7 +2,11 @@ import styles from "./CharacterParts.module.css";
 import { useState } from "react";
 import { useLoading } from "../../hooks/useLoading";
 import { useUrlConfig } from "../../hooks/useUrlConfig";
-import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
+import { useRotateY } from "../../context/RotateYContext";
+import {
+  useMediaActive,
+  useMediaInfo,
+} from "../../context/MediaInfoContext/MediaInfoContext";
 import { useEffectState } from "../../context/EffectStateContext/EffectStateContext";
 import { getRandomFile } from "../../helper/dataObjControl";
 import { VoiceDataObj } from "../../data/VoiceDataObj";
@@ -17,10 +21,12 @@ const CharacterParts = ({ handleAspect }: PropsType) => {
   const [hasVocal, setHasVocal] = useState<boolean>(false);
 
   const { urlConfig } = useUrlConfig();
+  const { rotateYState } = useRotateY();
   const { effectState } = useEffectState();
+  const { mediaActive } = useMediaActive();
   const { mediaInfoDispatch } = useMediaInfo();
 
-  const { loadStatus, showTarget, showError } = useLoading({
+  const { loadStatus, showTarget } = useLoading({
     trigger: [urlConfig.character],
     target: "character",
   });
@@ -43,9 +49,9 @@ const CharacterParts = ({ handleAspect }: PropsType) => {
 
   const changeStandImage = (e: React.WheelEvent) => {
     if (e.deltaY > 0) {
-      mediaInfoDispatch({ type: "next", payload: "card" });
+      mediaInfoDispatch({ type: "next", payload: { scene: "card", mediaActive } });
     } else {
-      mediaInfoDispatch({ type: "prev", payload: "card" });
+      mediaInfoDispatch({ type: "prev", payload: { scene: "card", mediaActive } });
     }
   };
 
@@ -55,21 +61,25 @@ const CharacterParts = ({ handleAspect }: PropsType) => {
   };
 
   return (
-    <div className={styles["stand-box"]} onClick={handleVocal} onWheel={changeStandImage}>
+    <div
+      onClick={handleVocal}
+      onWheel={changeStandImage}
+      className={styles["character-box"]}
+      style={{ transform: `rotateY(${rotateYState.character ? 180 : 0}deg)` }}
+    >
       <img
-        className={styles["stand-img"]}
-        src={urlConfig.character}
-        style={{ display: loadStatus === "success" ? undefined : "none" }}
         onLoad={handleLoaded}
-        onStalled={showError}
+        src={urlConfig.character}
+        className={styles["character-img"]}
+        style={{ display: loadStatus === "success" ? undefined : "none" }}
       />
 
       <Loading kind="3rd" loadStatus={loadStatus} />
 
       {effectState.blendCG.active && effectState.filterEffect.targetCharacter && (
         <img
-          className={`${styles["stand-img"]} ${styles.texture}`}
           src={urlConfig.character}
+          className={`${styles["character-img"]} ${styles.texture}`}
           style={{ display: loadStatus === "success" ? undefined : "none" }}
         />
       )}

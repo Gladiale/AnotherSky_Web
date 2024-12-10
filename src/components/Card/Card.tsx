@@ -11,7 +11,7 @@ import { useFilterData } from "../../hooks/useFilterData";
 import { useMouseControl } from "../../hooks/useMouseControl";
 // framer-motion
 import { motion } from "motion/react";
-import { bgRefresh, cardRefresh } from "../../libs/motion/motionVariants";
+import { cardBgRefresh, cardRefresh } from "../../libs/motion/motionVariants";
 // import { useEffect, useState } from "react";
 
 const Card = () => {
@@ -19,7 +19,7 @@ const Card = () => {
   const { rotateYState } = useRotateY();
   const { screenMode } = useScreenMode();
   const { effectState } = useEffectState();
-  const { isHovered, setIsHovered } = useHover();
+  const { hoverState, hoverDispatch } = useHover();
   // カスタムフック
   const { urlConfig } = useUrlConfig();
   const { filterData } = useFilterData("card");
@@ -39,7 +39,7 @@ const Card = () => {
 
   return (
     <motion.div
-      variants={cardRefresh(rotateYState.cardRotateY)}
+      variants={cardRefresh(rotateYState.card)}
       initial="hidden"
       animate="visible"
       className={`${styles.card} ${screenMode === "cgMode" && styles.cgMode}`}
@@ -50,17 +50,17 @@ const Card = () => {
       onClick={changeScene}
       onContextMenu={resetScene}
       onWheel={changeMedia}
-      onMouseEnter={() => setIsHovered({ cardHover: true, iconHover: false })}
-      onMouseLeave={() => setIsHovered({ cardHover: false, iconHover: false })}
+      onMouseEnter={() => hoverDispatch({ type: "card", payload: "enter" })}
+      onMouseLeave={() => hoverDispatch({ type: "card", payload: "leave" })}
     >
       {/* 背景画像 */}
       <motion.div
-        variants={bgRefresh}
+        variants={cardBgRefresh}
         initial="hidden"
         animate="visible"
         className={styles["stand-img"]}
         style={{
-          height: isHovered.cardHover ? "100%" : "0",
+          height: hoverState.card ? "100%" : "0",
           backgroundImage: `url(${urlConfig.character})`,
         }}
       />
