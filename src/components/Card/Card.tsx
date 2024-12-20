@@ -1,7 +1,5 @@
 import styles from "./Card.module.css";
-
 import CardPolygon from "./CardPolygon";
-
 import { useHover } from "../../context/HoverContext";
 import { useRotateY } from "../../context/RotateYContext";
 import { useScreenMode } from "../../context/ScreenContext";
@@ -10,8 +8,8 @@ import { useUrlConfig } from "../../hooks/useUrlConfig";
 import { useFilterData } from "../../hooks/useFilterData";
 import { useMouseControl } from "../../hooks/useMouseControl";
 // framer-motion
-import { motion } from "motion/react";
-import { cardBgRefresh, cardRefresh } from "../../libs/motion/motionVariants";
+import { AnimatePresence, motion } from "motion/react";
+import { cardImgRefresh, cardRefresh } from "../../libs/motion/motionVariants";
 // import { useEffect, useState } from "react";
 
 const Card = () => {
@@ -43,6 +41,7 @@ const Card = () => {
       initial="hidden"
       animate="visible"
       className={`${styles.card} ${screenMode === "cgMode" && styles.cgMode}
+      ${effectState.mirrorEffect && styles.mirror}
       ${hoverState.card && styles.cardHover}`}
       style={{
         filter: filterData,
@@ -54,14 +53,18 @@ const Card = () => {
       onMouseEnter={() => hoverDispatch({ type: "card", payload: "enter" })}
       onMouseLeave={() => hoverDispatch({ type: "card", payload: "leave" })}
     >
-      {/* 背景画像 */}
-      <motion.div
-        variants={cardBgRefresh}
-        initial="hidden"
-        animate="visible"
-        className={styles["stand-img"]}
-        style={{ backgroundImage: `url(${urlConfig.character})` }}
-      />
+      {/* キャラクター */}
+      <AnimatePresence>
+        <motion.img
+          variants={cardImgRefresh}
+          initial="hidden"
+          animate="visible"
+          key={urlConfig.character}
+          src={urlConfig.character}
+          alt="character"
+          className={styles["stand-img"]}
+        />
+      </AnimatePresence>
 
       <CardPolygon />
     </motion.div>

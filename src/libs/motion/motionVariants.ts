@@ -1,34 +1,55 @@
-const cardRefresh = (rotateY: boolean) => ({
-  hidden: { scale: 0, rotate: 360, rotateY: rotateY ? -180 : -360 },
+import { type Variants } from "motion/react";
+
+// 参考: https://motion.dev/docs/react-transitions
+const cardRefresh = (rotateY: boolean): Variants => ({
+  hidden: { scale: 0, rotateZ: 540, rotateY: rotateY ? 180 : 0 },
   visible: {
     scale: 1,
-    rotate: 0,
+    rotateZ: 0,
     rotateY: rotateY ? 180 : 0,
-    transition: { duration: 1, ease: "linear", type: "spring", restSpeed: 2 },
+    transition: {
+      default: {
+        type: "spring",
+        bounce: 0.6,
+        duration: 2.1,
+      },
+      scale: {
+        type: "spring",
+        bounce: 0.4,
+        duration: 1.5,
+      },
+      rotateZ: {
+        type: "spring",
+        bounce: 0.3,
+        duration: 1.5,
+      },
+    },
   },
 });
 
-const cardBgRefresh = {
-  hidden: { scale: 3 },
+const cardImgRefresh: Variants = {
+  hidden: { x: "100%", opacity: 0 },
   visible: {
-    scale: 1,
+    x: 0,
+    opacity: 1,
     transition: {
-      delay: 0.1,
-      duration: 2,
-      ease: "linear",
-      type: "spring",
-      restSpeed: 2,
-      mass: 0.7,
+      default: {
+        type: "spring",
+        mass: 1.5,
+      },
+      opacity: {
+        ease: "linear",
+      },
     },
   },
 };
 
-const flipBookRefresh = {
+const flipBookRefresh: Variants = {
   hidden: { scale: 0 },
   visible: {
     scale: 1,
-    transition: { duration: 1, ease: "linear", type: "spring", restSpeed: 2, mass: 1.5 },
+    transition: { type: "spring", mass: 1.5 },
   },
 };
 
-export { cardRefresh, cardBgRefresh, flipBookRefresh };
+export { cardRefresh, cardImgRefresh, flipBookRefresh };
