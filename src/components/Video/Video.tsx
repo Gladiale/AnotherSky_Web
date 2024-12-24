@@ -40,10 +40,9 @@ const Video = () => {
   });
 
   const [hasControl, setHasControl] = useState<boolean>(false);
-  const [isLocked, setIsLocked] = useState<boolean>(false);
   const handleContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
-    isLocked
+    appOption.rotateYIsRightCLick
       ? rotateYDispatch({ type: "video", payload: {} })
       : (resetScene(e), triggerEditMode(e, true));
   };
@@ -95,14 +94,10 @@ const Video = () => {
           src={urlConfig.video}
         ></video>
         <Loading kind="1st" loadStatus={loadStatus} />
-        {effectState.imageEF.activeImage && <EffectImage />}
+        {effectState.image.active && <EffectImage />}
       </div>
 
-      <VideoControl
-        isLocked={isLocked}
-        setHasControl={setHasControl}
-        setIsLocked={setIsLocked}
-      />
+      <VideoControl setHasControl={setHasControl} />
     </div>
   );
 };
