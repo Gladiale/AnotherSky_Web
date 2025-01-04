@@ -1,7 +1,7 @@
 import os
 
 # リネームしたいフォルダを指定
-_dir = r'E:\HTML\@自作サービス\_AnotherSky\AnotherSky_web\public\cg\しゅごキャラ'
+_dir = r'E:\HTML\@自作サービス\AnotherSky_local\public\cg-image\folder-01'
 
 def renameFiles(folder_path):
     files = os.listdir(folder_path)
