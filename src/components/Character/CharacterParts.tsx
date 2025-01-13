@@ -8,7 +8,7 @@ import {
   useMediaInfo,
 } from "../../context/MediaInfoContext/MediaInfoContext";
 import { useEffectState } from "../../context/EffectStateContext/EffectStateContext";
-import { getRandomFile } from "../../helper/dataObjControl";
+import { getRandomFile } from "../../libs/utils/dataObjControl";
 import { VoiceDataObj } from "../../data/VoiceDataObj";
 import Loading from "../Loading/Loading";
 
