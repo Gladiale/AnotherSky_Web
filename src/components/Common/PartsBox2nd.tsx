@@ -31,10 +31,10 @@ const PartsBox2nd = (props: PropsType) => {
       {title && <p className={styles.title}>{title}</p>}
 
       <div className={styles["control"]}>
-        <IconSmall theme="theme-2nd" children={<BiFirstPage />} onClick={onFirstClick} />
-        <IconSmall theme="theme-2nd" children={<BsChevronLeft />} onClick={onPrevClick} />
+        <IconSmall shape="rabbet" children={<BiFirstPage />} onClick={onFirstClick} />
+        <IconSmall shape="rabbet" children={<BsChevronLeft />} onClick={onPrevClick} />
         <p
-          className={onBoxClick && styles.ani}
+          className={`${styles["message"]} ${onBoxClick && styles.ani}`}
           onClick={onBoxClick}
           onContextMenu={(e) => {
             e.preventDefault();
@@ -43,12 +43,8 @@ const PartsBox2nd = (props: PropsType) => {
         >
           {message}
         </p>
-        <IconSmall
-          theme="theme-2nd"
-          children={<BsChevronRight />}
-          onClick={onNextClick}
-        />
-        <IconSmall theme="theme-2nd" children={<BiLastPage />} onClick={onLastClick} />
+        <IconSmall shape="rabbet" children={<BsChevronRight />} onClick={onNextClick} />
+        <IconSmall shape="rabbet" children={<BiLastPage />} onClick={onLastClick} />
       </div>
     </div>
   );

@@ -1,40 +1,34 @@
 import styles from "./AppOption.module.css";
 import { useEffect, useState } from "react";
-import { GiAzulFlake, GiDelighted } from "react-icons/gi";
+import { useHover } from "../../context/HoverContext";
+import { GiDelighted, GiForwardField } from "react-icons/gi";
 import { useAppOption } from "../../context/AppOptionContext/AppOptionContext";
 // components
 import Corner from "../Common/Corner";
-import CheckBox from "../Common/CheckBox";
 import IconDefault from "../Common/IconDefault";
-// 画像
-import icon01 from "../../assets/panel/icon-01.png";
-import icon02 from "../../assets/panel/icon-02.png";
-
-const optionConfig: {
-  target: "loadingAnime" | "parallax" | "rotateYIsRightCLick";
-  text: string;
-}[] = [
-  { target: "loadingAnime", text: "Loading動画" },
-  { target: "parallax", text: "Parallax効果" },
-  { target: "rotateYIsRightCLick", text: "右ClickをY軸回転" },
-];
+import AppOptionContent1st from "./AppOptionContent1st";
+import AppOptionContent2nd from "./AppOptionContent2nd";
 
 const AppOption = () => {
+  const { hoverDispatch } = useHover();
+  const { appOption, saveStorageData } = useAppOption();
   const [showPanel, setShowPanel] = useState<boolean>(false);
-  const { appOption, appOptionDispatch, saveStorageData } = useAppOption();
+  const [isContent2nd, setIsContent2nd] = useState<boolean>(false);
 
   useEffect(() => {
     if (showPanel) {
       saveStorageData();
+      hoverDispatch({ type: "card", payload: "enter" });
+    } else {
+      hoverDispatch({ type: "card", payload: "leave" });
     }
-  }, [appOption]);
+  }, [showPanel]);
 
   return (
     <div className={styles["app-option"]}>
       <div
-        className={`${styles["trigger-box"]} ${
-          appOption.dropShadow.icon && styles.shadow
-        }`}
+        className={`${styles["trigger-button"]} 
+        ${appOption.dropShadow.icon && styles.shadow}`}
       >
         <IconDefault
           children={<GiDelighted />}
@@ -43,103 +37,22 @@ const AppOption = () => {
       </div>
 
       <div
-        className={styles["option-panel"]}
+        className={styles["panel-box"]}
         style={{ right: showPanel ? "0" : "calc(-100dvh / 3)" }}
       >
         <Corner theme="violet" singleConnerWidth="40%" />
 
-        <div className={styles["control-box-1st"]}>
-          {optionConfig.map((option, index) => (
-            <label
-              key={index}
-              onClick={() => appOptionDispatch({ type: "basic", payload: option.target })}
-            >
-              <GiAzulFlake
-                className={`${styles["icon"]} 
-                ${appOption[option.target] && styles["checked"]}`}
-              />
-              <p>{option.text}</p>
-            </label>
-          ))}
+        <div
+          className={`${styles["content-switch-button"]} 
+          ${appOption.dropShadow.icon && styles.shadow}`}
+        >
+          <IconDefault
+            children={<GiForwardField />}
+            onClick={() => setIsContent2nd((prev) => !prev)}
+          />
         </div>
 
-        <div className={styles["control-box"]}>
-          <div className={styles["item-left"]}>
-            <img src={icon01} alt="icon" />
-          </div>
-          <div className={styles["item-right"]}>
-            <CheckBox
-              kind="2nd"
-              fontSize={1}
-              checkBoxSize={0.8}
-              gap={{ outerGap: "0.7rem", innerGap: "0.1rem" }}
-              checkBoxList={[
-                {
-                  text: "CG",
-                  state: appOption.lastingAnime.cg,
-                  onChange: () =>
-                    appOptionDispatch({ type: "lastingAnime", payload: "cg" }),
-                },
-                {
-                  text: "VIDEO",
-                  state: appOption.lastingAnime.video,
-                  onChange: () =>
-                    appOptionDispatch({ type: "lastingAnime", payload: "video" }),
-                },
-              ]}
-            />
-            <p>常時動画効果</p>
-          </div>
-        </div>
-
-        <div className={styles["control-box"]} style={{ gap: "0.7rem" }}>
-          <div className={styles["item-left"]}>
-            <img src={icon02} alt="icon" />
-          </div>
-          <div className={styles["item-right"]}>
-            <CheckBox
-              kind="2nd"
-              fontSize={1}
-              checkBoxSize={0.8}
-              gap={{ outerGap: "0.7rem", innerGap: "0.1rem" }}
-              checkBoxList={[
-                {
-                  text: "CG",
-                  state: appOption.dropShadow.cg,
-                  onChange: () =>
-                    appOptionDispatch({ type: "dropShadow", payload: "cg" }),
-                },
-                {
-                  text: "VIDEO",
-                  state: appOption.dropShadow.video,
-                  onChange: () =>
-                    appOptionDispatch({ type: "dropShadow", payload: "video" }),
-                },
-              ]}
-            />
-            <CheckBox
-              kind="2nd"
-              fontSize={1}
-              checkBoxSize={0.8}
-              gap={{ outerGap: "0.7rem", innerGap: "0.1rem" }}
-              checkBoxList={[
-                {
-                  text: "ICON",
-                  state: appOption.dropShadow.icon,
-                  onChange: () =>
-                    appOptionDispatch({ type: "dropShadow", payload: "icon" }),
-                },
-                {
-                  text: "CHARA",
-                  state: appOption.dropShadow.character,
-                  onChange: () =>
-                    appOptionDispatch({ type: "dropShadow", payload: "character" }),
-                },
-              ]}
-            />
-            <p style={{ marginTop: "0.2rem" }}>ドロップシャドウ</p>
-          </div>
-        </div>
+        {isContent2nd ? <AppOptionContent2nd /> : <AppOptionContent1st />}
       </div>
     </div>
   );
