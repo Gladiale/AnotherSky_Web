@@ -1,21 +1,22 @@
 import styles from "./ListImage.module.css";
 import { useLayoutEffect, useState } from "react";
-import { useImageList } from "../../context/ImageListState";
-import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
 import { useScene } from "../../context/SceneContext";
 import { useFilter } from "../../context/FilterContext";
-import { useEffectState } from "../../context/EffectStateContext/EffectStateContext";
 import { useRotateY } from "../../context/RotateYContext";
+import { useImageList } from "../../context/ImageListState";
+import { useMediaInfo } from "../../context/MediaInfoContext/MediaInfoContext";
+import { useEffectState } from "../../context/EffectStateContext/EffectStateContext";
 import { createRandomImg } from "../../libs/utils/createRandomImg";
 import { type SpecificPayloadType } from "../../context/MediaInfoContext/MediaInfoFunc/dispatch/toMediaSpecificFile";
 
 const ListImage = () => {
-  const { listState, listSubState, setListState } = useImageList();
-  const { mediaInfo, mediaInfoDispatch } = useMediaInfo();
   const { setScene } = useScene();
+  const { filterState } = useFilter();
   const { rotateYState } = useRotateY();
   const { effectState } = useEffectState();
-  const { filterState } = useFilter();
+  const { mediaInfo, mediaInfoDispatch } = useMediaInfo();
+  const { listState, setListState } = useImageList();
+
   const [imageInfoList, setImageInfoList] = useState<
     [[number, string], [number, string, number]][]
   >([]);
@@ -31,14 +32,8 @@ const ListImage = () => {
     }
   };
 
-  // 右クリック
-  const resetCardScene = (e: any) => {
-    e.preventDefault();
-    // setScene("card-cg");
-  };
-
   let target: SpecificPayloadType["target"];
-  if (listState.cg) {
+  if (listState.target === "cg") {
     target = "cg";
   } else {
     target = "character";
@@ -48,7 +43,7 @@ const ListImage = () => {
   useLayoutEffect(() => {
     const imageList: [[number, string], [number, string, number]][] = [];
 
-    if (listState.cg) {
+    if (listState.target === "cg") {
       target = "cg";
     } else {
       target = "character";
@@ -70,7 +65,7 @@ const ListImage = () => {
           ? `opacity(${filterState.opacity}%) brightness(${filterState.brightness}%) contrast(${filterState.contrast}%) grayscale(${filterState.grayscale}%) hue-rotate(${filterState.hueRotate}deg) invert(${filterState.invert}%) saturate(${filterState.saturate}%) sepia(${filterState.sepia}%)`
           : undefined,
       }}
-      onContextMenu={resetCardScene}
+      onContextMenu={(e) => e.preventDefault()}
       onWheel={() => setListState((prev) => ({ ...prev, random: !prev.random }))}
     >
       {imageInfoList.map((item, index) => (
@@ -84,8 +79,8 @@ const ListImage = () => {
           data-text={`${item[0][1]}-${item[1][1]}`}
         >
           <img
-            className={`${listState.stand ? styles.isStand : styles.isCG} ${
-              listSubState.heightAuto ? styles.heightAuto : ""
+            className={`${listState.target === "chara" ? styles.isChara : styles.isCG} ${
+              listState.heightAuto ? styles.heightAuto : ""
             }`}
             src={`/${target}/${item[0][1]}/${item[1][1]}`}
             onClick={() => changeCardCg(target, index)}
