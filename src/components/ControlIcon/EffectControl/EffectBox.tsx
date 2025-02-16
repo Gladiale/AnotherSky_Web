@@ -1,17 +1,15 @@
 import styles from "./EffectControl.module.css";
 import { useState } from "react";
 import { GiFeline } from "react-icons/gi";
-import { useFilterStatus } from "../../../hooks/useFilterStatus";
 import { useEffectState } from "../../../context/EffectStateContext/EffectStateContext";
 // components
 import CheckBox from "../../Common/CheckBox";
 import PackingBox from "./PackingBox";
 import RangeBox from "./RangeBox";
+import FilterButton from "./FilterButton";
 
 const EffectBox = () => {
   const { effectState, effectStateDispatch } = useEffectState();
-  const { message, copyFilterStatus, applyFilterStatus, resetFilterStatus } =
-    useFilterStatus();
 
   const [partsActive, setPartsActive] = useState<boolean>(false);
 
@@ -26,7 +24,6 @@ const EffectBox = () => {
 
       {partsActive ? <PackingBox /> : <RangeBox />}
 
-      {/* 元CSS margin-top: 0.2rem; */}
       <CheckBox
         kind="1st"
         fontSize={1}
@@ -58,15 +55,7 @@ const EffectBox = () => {
         ]}
       />
 
-      <div className={styles.filterButton} data-message="右クリックリセット">
-        <input
-          type="button"
-          value={message.apply}
-          onClick={applyFilterStatus}
-          onContextMenu={resetFilterStatus}
-        />
-        <input type="button" value={message.copy} onClick={copyFilterStatus} />
-      </div>
+      <FilterButton />
     </div>
   );
 };
