@@ -4,4 +4,7 @@
 ![操作方法_01](./readme_01.jpg)
 ![操作方法_02](./readme_02.jpg)
 ![操作方法_03](./readme_03.jpg)
-<img src="./readme_04.jpg" width="49%">&nbsp;&nbsp;<img src="./readme_05.jpg" width="49%">
+<div style="display: flex; justify-content: space-between; margin-top: -15px">
+  <img src="./readme_04.jpg" width="49%">
+  <img src="./readme_05.jpg" width="49%">
+</div>
